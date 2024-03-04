@@ -9,6 +9,13 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 public class LogicTest {
 
+  private final static int BOARD_SIZE = 5;
+  private Logics logics;
+
+  @BeforeEach
+  public void initBoard(){
+    logics = new LogicsImpl(BOARD_SIZE);
+  }
   @Test
   public void test() {
     assert(true);
@@ -21,11 +28,10 @@ public class LogicTest {
 
   @Test
   public void knightPlacedOnBoard(){
-    int boardSize = 5;
-    Logics logics = new LogicsImpl(boardSize);
+
     boolean knightOnBoard = false;
-    for (int i = 0; i < boardSize; i++) {
-      for (int j = 0; j < boardSize; j++) {
+    for (int i = 0; i < BOARD_SIZE; i++) {
+      for (int j = 0; j < BOARD_SIZE; j++) {
           if(!knightOnBoard)
               knightOnBoard = logics.hasKnight(i,j);
       }
@@ -35,8 +41,7 @@ public class LogicTest {
 
   @Test
   public void knightPlacedCorrectlyOnBoard(){
-    int boardSize = 5;
-    Logics logics = new LogicsImpl(boardSize);
+
     int knightXCoordinate = 3;
     int knightYCoordinate = 3;
     logics.setKnightPosition(knightXCoordinate,knightYCoordinate);
@@ -45,21 +50,22 @@ public class LogicTest {
 
   @Test
   public void knightPlacedIncorrectlyOnBoard(){
-    int boardSize = 5;
-    Logics logics = new LogicsImpl(boardSize);
-    int knightNegativeXCoordinate = -1;
-    int knightNegativeYCoordinate = -1;
-    logics.setKnightPosition(knightNegativeXCoordinate,knightNegativeYCoordinate);
-    int knightExcessiveXCoordinate = 6;
-    int knightExcessiveYCoordinate = 6;
-    logics.setKnightPosition(knightExcessiveXCoordinate,knightExcessiveYCoordinate);
-    logics.setKnightPosition(knightNegativeXCoordinate,knightNegativeYCoordinate);
     assertAll(
-            () -> assertThrows(IllegalArgumentException.class, () -> logics.hasKnight(knightNegativeXCoordinate,knightNegativeYCoordinate)),
-            () -> assertThrows(IllegalArgumentException.class, () -> logics.hasKnight(knightExcessiveXCoordinate,knightExcessiveYCoordinate))
+            () -> assertThrows(IllegalArgumentException.class,()->logics.setKnightPosition(-1,-1)),
+            () -> assertThrows(IllegalArgumentException.class,()->logics.setKnightPosition(BOARD_SIZE,BOARD_SIZE))
     );
 
   }
+
+  @Test
+  public void knightSearchIncorrectlyOnBoard(){
+    assertAll(
+            () -> assertThrows(IllegalArgumentException.class,()->logics.hasKnight(-1,-1)),
+            () -> assertThrows(IllegalArgumentException.class,()->logics.hasKnight(BOARD_SIZE,BOARD_SIZE))
+    );
+  }
+
+
 
 
 

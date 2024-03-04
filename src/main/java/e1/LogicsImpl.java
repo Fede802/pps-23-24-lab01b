@@ -38,8 +38,9 @@ public class LogicsImpl implements Logics {
 
 	@Override
 	public boolean hasKnight(int row, int col) {
-		if (row<0 || col<0 || row >= this.size || col >= this.size)
+		if (row<0 || col<0 || row >= this.size || col >= this.size) {
 			throw new IllegalArgumentException();
+		}
 		return this.knight.equals(new Pair<>(row,col));
 	}
 
@@ -49,7 +50,10 @@ public class LogicsImpl implements Logics {
 	}
 
 	@Override
-	public void setKnightPosition(int knightXCoordinate, int knightYCoordinate) {
+	public void setKnightPosition(int knightXCoordinate, int knightYCoordinate){
+		if (knightXCoordinate<0 || knightYCoordinate<0 || knightXCoordinate >= this.size || knightYCoordinate >= this.size) {
+			throw new IllegalArgumentException();
+		}
 		this.knight = new Pair<>(knightXCoordinate,knightYCoordinate);
 	}
 }

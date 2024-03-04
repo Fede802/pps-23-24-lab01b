@@ -25,5 +25,5 @@ public interface Logics{
      */
     boolean hasPawn(int row, int col);
 
-    void setKnightPosition(int knightXCoordinate, int knightYCoordinate);
+    void setKnightPosition(int knightXCoordinate, int knightYCoordinate) throws IllegalArgumentException;
 }
