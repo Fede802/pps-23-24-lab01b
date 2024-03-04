@@ -1,6 +1,8 @@
 package e1;
 import org.junit.jupiter.api.*;
 
+import java.lang.reflect.Executable;
+import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
@@ -8,8 +10,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LogicTest {
 
   private final static int BOARD_SIZE = 5;
+  private final static Pair<Integer,Integer> KNIGHT_START_POSITION = new Pair<>(2,2);
+  private final static Pair<Integer,Integer> PAWN_START_POSITION = new Pair<>(3,3);
   private Logics logics;
 
+  private void outOfBoardChecker(BiConsumer<Integer,Integer> actionToCheck) {
+    assertAll(
+            () -> assertThrows(IllegalArgumentException.class,()->actionToCheck.accept(-1,0)),
+            () -> assertThrows(IllegalArgumentException.class,()->actionToCheck.accept(0,-1)),
+            () -> assertThrows(IllegalArgumentException.class,()->actionToCheck.accept(BOARD_SIZE,0)),
+            () -> assertThrows(IllegalArgumentException.class,()->actionToCheck.accept(0,BOARD_SIZE))
+    );
+  }
   private boolean isPieceOnBoard(BiPredicate<Integer,Integer> pieceFinder) {
     boolean pieceOnBoard = false;
     for (int i = 0; i < BOARD_SIZE; i++) {
@@ -23,90 +35,52 @@ public class LogicTest {
   @BeforeEach
   public void initBoard(){
     logics = new LogicsImpl(BOARD_SIZE);
+    logics.setKnightPosition(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY());
+    logics.setPawnPosition(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY());
   }
-
   @Test
   public void knightPlacedOnBoard(){
-    assertTrue(isPieceOnBoard((i,j) -> logics.hasKnight(i,j)));
+    assertTrue(logics.hasKnight(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY()));
   }
-
-  @Test
-  public void knightAndPawnPlacedCorrectlyOnBoard(){
-    int knightXCoordinate = 2;
-    int knightYCoordinate = 2;
-    logics.setKnightPosition(knightXCoordinate,knightYCoordinate);
-    int pawnXCoordinate = 3;
-    int pawnYCoordinate = 3;
-    logics.setPawnPosition(pawnXCoordinate,pawnYCoordinate);
-    assertAll(
-            () -> assertTrue(logics.hasKnight(knightXCoordinate,knightYCoordinate)),
-            () -> assertTrue(logics.hasPawn(pawnXCoordinate,pawnYCoordinate))
-    );
-  }
-
   @Test
   public void knightPlacedIncorrectlyOnBoard(){
-    assertAll(
-            () -> assertThrows(IllegalArgumentException.class,()->logics.setKnightPosition(-1,-1)),
-            () -> assertThrows(IllegalArgumentException.class,()->logics.setKnightPosition(BOARD_SIZE,BOARD_SIZE))
-    );
-
+    outOfBoardChecker((i,j)->logics.setKnightPosition(i,j));
   }
-
   @Test
   public void knightSearchIncorrectlyOnBoard(){
-    assertAll(
-            () -> assertThrows(IllegalArgumentException.class,()->logics.hasKnight(-1,-1)),
-            () -> assertThrows(IllegalArgumentException.class,()->logics.hasKnight(BOARD_SIZE,BOARD_SIZE))
-    );
+    outOfBoardChecker((i,j)->logics.hasKnight(i,j));
   }
-
   @Test
   public void pawnPlacedOnBoard(){
-      assertTrue(isPieceOnBoard((i,j) -> logics.hasPawn(i,j)));
+    assertTrue(logics.hasPawn(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY()));
   }
 
   @Test
   public void pawnPlacedIncorrectlyOnBoard(){
-    assertAll(
-            () -> assertThrows(IllegalArgumentException.class,()->logics.setPawnPosition(-1,-1)),
-            () -> assertThrows(IllegalArgumentException.class,()->logics.setPawnPosition(BOARD_SIZE,BOARD_SIZE))
-    );
-
+    outOfBoardChecker((i,j)->logics.setPawnPosition(i,j));
   }
 
   @Test
   public void pawnSearchIncorrectlyOnBoard(){
-    assertAll(
-            () -> assertThrows(IllegalArgumentException.class,()->logics.hasPawn(-1,-1)),
-            () -> assertThrows(IllegalArgumentException.class,()->logics.hasPawn(BOARD_SIZE,BOARD_SIZE))
-    );
+    outOfBoardChecker((i,j)->logics.hasPawn(i,j));
   }
-
   @Test
   public void spawnKnightOverPawn(){
-    int xCoordinate = 3;
-    int yCoordinate = 3;
-    logics.setPawnPosition(xCoordinate,yCoordinate);
-    assertThrows(IllegalStateException.class,()->logics.setKnightPosition(xCoordinate,yCoordinate));
+    assertThrows(IllegalStateException.class,()->logics.setKnightPosition(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY()));
   }
-
   @Test
   public void spawnPawnOverKnight(){
-    int xCoordinate = 3;
-    int yCoordinate = 3;
-    logics.setKnightPosition(xCoordinate,yCoordinate);
-    assertThrows(IllegalStateException.class,()-> logics.setPawnPosition(xCoordinate,yCoordinate));
+    assertThrows(IllegalStateException.class,()-> logics.setPawnPosition(KNIGHT_START_POSITION.getX(), KNIGHT_START_POSITION.getY()));
   }
 
-  @Test
-  public void moveKnight(){
-    for (int i = 0; i < BOARD_SIZE; i++) {
-      for (int j = 0; j < BOARD_SIZE; j++) {
-
-      }
-    }
-  }
+//  @Test
+//  public void moveKnight(){
+//    for (int i = 0; i < BOARD_SIZE; i++) {
+//      for (int j = 0; j < BOARD_SIZE; j++) {
+//
+//      }
+//    }
+//  }
 
 
 

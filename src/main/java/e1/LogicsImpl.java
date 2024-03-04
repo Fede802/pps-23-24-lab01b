@@ -74,4 +74,6 @@ public class LogicsImpl implements Logics {
 		}
 		this.pawn = new Pair<>(pawnXCoordinate,pawnYCoordinate);
 	}
+
+
 }
