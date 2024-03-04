@@ -12,4 +12,31 @@ public class LogicTest {
     // int result = Logic.someMethod(5, 10);
     // assertEquals(expectedResult, result);
   }
+
+  @Test
+  public void knightPlacedOnBoard(){
+    int boardSize = 5;
+    Logics logics = new LogicsImpl(boardSize);
+    boolean knightOnBoard = false;
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
+          knightOnBoard = logics.hasKnight(i,j);
+      }
+    }
+    assertTrue(knightOnBoard);
+  }
+
+  @Test
+  public void knightPlacedCorrectlyOnBoard(){
+    int boardSize = 5;
+    Logics logics = new LogicsImpl(boardSize);
+    boolean knightOnBoard = false;
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
+        knightOnBoard = logics.hasKnight(i,j);
+      }
+    }
+    assertTrue(knightOnBoard);
+  }
+
 }
