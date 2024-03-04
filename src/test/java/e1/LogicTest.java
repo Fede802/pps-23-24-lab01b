@@ -1,16 +1,14 @@
 package e1;
 import org.junit.jupiter.api.*;
 
-import java.lang.reflect.Executable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.BiPredicate;
-import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
-public class LogicTest {
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+public class LogicTest {
   private final static int BOARD_SIZE = 5;
   private final static Pair<Integer,Integer> KNIGHT_START_POSITION = new Pair<>(1,1);
   private final static Pair<Integer,Integer> PAWN_START_POSITION = new Pair<>(0,0);
@@ -22,77 +20,97 @@ public class LogicTest {
           new Pair<>(2,-1),
           new Pair<>(1,-1),
           new Pair<>(2,1),
-          new Pair<>(1,1));
-
+          new Pair<>(1,2));
+  private final static List<Pair<Integer,Integer>> INVALID_POSITIONS = Arrays.asList(
+          new Pair<>(-1,0),
+          new Pair<>(0,-1),
+          new Pair<>(BOARD_SIZE,0),
+          new Pair<>(0,BOARD_SIZE));
   private Logics logics;
-
-  private void outOfBoardChecker(BiConsumer<Integer,Integer> actionToCheck) {
+  private void checkInvalidPositions(BiConsumer<Integer,Integer> actionToCheck) {
     assertAll(
-            () -> assertThrows(IllegalArgumentException.class,()->actionToCheck.accept(-1,0)),
-            () -> assertThrows(IllegalArgumentException.class,()->actionToCheck.accept(0,-1)),
-            () -> assertThrows(IllegalArgumentException.class,()->actionToCheck.accept(BOARD_SIZE,0)),
-            () -> assertThrows(IllegalArgumentException.class,()->actionToCheck.accept(0,BOARD_SIZE))
+            INVALID_POSITIONS.stream().map(
+                    (position)-> () -> assertThrows(IllegalArgumentException.class,()->actionToCheck.accept(position.getX(),position.getY()))
+            )
     );
   }
-  private void checkValidMoves(int currentKnightX, int currentKnightY) {
-    VALID_MOVES.forEach((move)->{
-      if(currentKnightX+move.getX()<0 || currentKnightY+move.getY()<0 || currentKnightX+move.getX() >= BOARD_SIZE || currentKnightY+move.getY() >= BOARD_SIZE) {
-        assertThrows(IndexOutOfBoundsException.class, () -> logics.hit(currentKnightX+move.getX(),currentKnightY+move.getY()));
-      }else{
-        logics.hit(currentKnightX+move.getX(), currentKnightY+move.getY());
-      }
-    });
+  private void checkPossibleMoves(int currentKnightX, int currentKnightY) {
+    this.executeValidMoves(currentKnightX,currentKnightY);
+    this.checkInvalidMoves(currentKnightX,currentKnightY);
   }
-
-  private void movePawnAway(int i, int j) {
-    int newPawnXCoordinate = i > 0 ? 0 : 2;
-    int newPawnYCoordinate = j > 0 ? 0 : 2;
-    if(!logics.hasKnight(newPawnXCoordinate,newPawnYCoordinate)) {
-      logics.setPawnPosition(newPawnXCoordinate, newPawnYCoordinate);
-    }else {
-      logics.setPawnPosition(1, 1);
+  private void executeValidMoves(int currentKnightX, int currentKnightY) {
+    VALID_MOVES.stream().filter(
+            (move) -> !this.isNotValidBoardPosition(currentKnightX+move.getX(), currentKnightY+move.getY())
+    ).forEach(
+            (move)-> this.logics.hit(currentKnightX+move.getX(), currentKnightY+move.getY())
+    );
+  }
+  private void checkInvalidMoves(int currentKnightX, int currentKnightY) {
+    assertAll(
+            VALID_MOVES.stream().filter(
+                    (move) -> this.isNotValidBoardPosition(currentKnightX + move.getX(), currentKnightY + move.getY())
+            ).map(
+                    (move) ->
+                            () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.hit(currentKnightX+move.getX(), currentKnightY+move.getY()))
+            )
+    );
+  }
+  private boolean isNotValidBoardPosition(int boardX, int boardY){
+    return boardX < 0 || boardY < 0 || boardX >= BOARD_SIZE || boardY >= BOARD_SIZE;
+  }
+  private void setupPawnPosition(int boardX, int boardY) {
+    if(this.logics.hasPawn(boardX, boardY)){
+      this.movePawnAway(boardX,boardY);
     }
   }
-
+  private void movePawnAway(int boardX, int boardY) {
+    int newPawnXCoordinate = boardX > 0 ? 0 : 2;
+    int newPawnYCoordinate = boardY > 0 ? 0 : 2;
+    if(!this.logics.hasKnight(newPawnXCoordinate,newPawnYCoordinate)) {
+      this.logics.setPawnPosition(newPawnXCoordinate, newPawnYCoordinate);
+    }else {
+      this.logics.setPawnPosition(1, 1);
+    }
+  }
   @BeforeEach
   public void initBoard(){
-    logics = new LogicsImpl(BOARD_SIZE);
-    logics.setKnightPosition(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY());
-    logics.setPawnPosition(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY());
+    this.logics = new LogicsImpl(BOARD_SIZE);
+    this.logics.setKnightPosition(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY());
+    this.logics.setPawnPosition(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY());
   }
   @Test
   public void knightPlacedOnBoard(){
-    assertTrue(logics.hasKnight(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY()));
+    assertTrue(this.logics.hasKnight(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY()));
   }
   @Test
   public void knightPlacedIncorrectlyOnBoard(){
-    outOfBoardChecker((i,j)->logics.setKnightPosition(i,j));
+    checkInvalidPositions((i, j)->this.logics.setKnightPosition(i,j));
   }
   @Test
   public void knightSearchIncorrectlyOnBoard(){
-    outOfBoardChecker((i,j)->logics.hasKnight(i,j));
+    checkInvalidPositions((i, j)->this.logics.hasKnight(i,j));
   }
   @Test
   public void pawnPlacedOnBoard(){
-    assertTrue(logics.hasPawn(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY()));
+    assertTrue(this.logics.hasPawn(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY()));
   }
 
   @Test
   public void pawnPlacedIncorrectlyOnBoard(){
-    outOfBoardChecker((i,j)->logics.setPawnPosition(i,j));
+    checkInvalidPositions((i, j)->this.logics.setPawnPosition(i,j));
   }
 
   @Test
   public void pawnSearchIncorrectlyOnBoard(){
-    outOfBoardChecker((i,j)->logics.hasPawn(i,j));
+    checkInvalidPositions((i, j)->this.logics.hasPawn(i,j));
   }
   @Test
   public void spawnKnightOverPawn(){
-    assertThrows(IllegalStateException.class,()->logics.setKnightPosition(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY()));
+    assertThrows(IllegalStateException.class,()->this.logics.setKnightPosition(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY()));
   }
   @Test
   public void spawnPawnOverKnight(){
-    assertThrows(IllegalStateException.class,()-> logics.setPawnPosition(KNIGHT_START_POSITION.getX(), KNIGHT_START_POSITION.getY()));
+    assertThrows(IllegalStateException.class,()->this.logics.setPawnPosition(KNIGHT_START_POSITION.getX(), KNIGHT_START_POSITION.getY()));
   }
 
   @Test
@@ -101,27 +119,20 @@ public class LogicTest {
       for (int j = 0; j < BOARD_SIZE; j++) {
         this.setupPawnPosition(i, j);
         this.logics.setKnightPosition(i,j);
-        this.checkValidMoves(i,j);
+        this.checkPossibleMoves(i,j);
       }
     }
   }
-
-  private void setupPawnPosition(int xCoordinate, int yCoordinate) {
-    if(logics.hasPawn(xCoordinate, yCoordinate)){
-      this.movePawnAway(xCoordinate,yCoordinate);
-    }
-  }
-
   @Test
   public void checkWinningSituation(){
     int knightX = 0;
     int knightY = 0;
     int pawnX = 1;
     int pawnY = 2;
-    setupPawnPosition(knightX, knightY);
-    logics.setKnightPosition(knightX,knightY);
-    logics.setPawnPosition(pawnX,pawnY);
-    assertTrue(logics.hit(pawnX,pawnY));
+    this.setupPawnPosition(knightX, knightY);
+    this.logics.setKnightPosition(knightX,knightY);
+    this.logics.setPawnPosition(pawnX,pawnY);
+    assertTrue(this.logics.hit(pawnX,pawnY));
   }
 
 
