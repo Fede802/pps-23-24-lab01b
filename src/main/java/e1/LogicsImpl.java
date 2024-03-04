@@ -11,8 +11,7 @@ public class LogicsImpl implements Logics {
 	 
     public LogicsImpl(int size){
     	this.size = size;
-//        this.pawn = this.randomEmptyPosition();
-		this.pawn = new Pair<>(3,3);
+        this.pawn = this.randomEmptyPosition();
         this.knight = this.randomEmptyPosition();	
     }
     
@@ -52,6 +51,9 @@ public class LogicsImpl implements Logics {
 		}
 		return this.pawn.equals(new Pair<>(row,col));
 	}
+
+
+
 
 	@Override
 	public void setKnightPosition(int knightXCoordinate, int knightYCoordinate){

@@ -75,6 +75,7 @@ public class LogicTest {
   @BeforeEach
   public void initBoard(){
     this.logics = new LogicsImpl(BOARD_SIZE);
+    this.setupPawnPosition(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY());
     this.logics.setKnightPosition(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY());
     this.logics.setPawnPosition(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY());
   }
