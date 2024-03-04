@@ -11,12 +11,14 @@ public class LogicsImpl implements Logics {
 
 	 
     public LogicsImpl(int size){
+		System.out.println("ue");
     	this.gameBoard = new GameBoardImpl(size);
+		this.positionGenerator = new RandomPositionGenerator();
 		Pair<Integer,Integer> knightPosition = this.randomEmptyPosition();
         this.gameBoard.placeKnight(knightPosition.getX(),knightPosition.getY());
 		Pair<Integer,Integer> pawnPosition = this.randomEmptyPosition();
 		this.gameBoard.placePawn(pawnPosition.getX(),pawnPosition.getY());
-		this.positionGenerator = new RandomPositionGenerator();
+
 
 
     }
