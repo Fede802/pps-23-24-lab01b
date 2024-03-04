@@ -8,11 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BoardTest {
 
+    private final static int BOARD_SIZE = 5;
     private Board board;
 
     @BeforeEach
     void initBoard(){
-        board = new BoardImpl();
+        board = new BoardImpl(BOARD_SIZE);
     }
 
     @Test
@@ -21,7 +22,8 @@ public class BoardTest {
     }
 
     @Test
-    void isBoardSizeInitiallyZero(){
-        assertEquals(0,this.board.size());
+    void isBoardSizeSetCorrectly(){
+        assertEquals(BOARD_SIZE,this.board.size());
     }
+
 }

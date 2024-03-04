@@ -1,15 +1,17 @@
 package e1;
 
 public class BoardImpl implements Board {
-    public BoardImpl() {
+    private int boardSize;
+    public BoardImpl(int boardSize) {
+        this.boardSize = boardSize;
     }
     @Override
     public boolean isEmpty() {
-        return this.size() == 0;
+        return true;
     }
 
     @Override
     public int size() {
-        return 0;
+        return boardSize;
     }
 }
