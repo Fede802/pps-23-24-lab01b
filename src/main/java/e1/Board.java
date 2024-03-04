@@ -13,4 +13,6 @@ public interface Board {
     void emptyCell(int cellX, int cellY);
 
     void resetBoard();
+
+    boolean isCellFilled(int cellX, int cellY);
 }

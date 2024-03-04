@@ -57,4 +57,9 @@ public class BoardImpl implements Board {
         this.initBoard(boardSize);
     }
 
+    @Override
+    public boolean isCellFilled(int cellX, int cellY) {
+        return this.board.get(cellX).get(cellY);
+    }
+
 }
