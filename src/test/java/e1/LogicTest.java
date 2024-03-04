@@ -34,16 +34,26 @@ public class LogicTest {
             () -> assertThrows(IllegalArgumentException.class,()->actionToCheck.accept(0,BOARD_SIZE))
     );
   }
-  private boolean isPieceOnBoard(BiPredicate<Integer,Integer> pieceFinder) {
-    boolean pieceOnBoard = false;
-    for (int i = 0; i < BOARD_SIZE; i++) {
-      for (int j = 0; j < BOARD_SIZE; j++) {
-        if(!pieceOnBoard)
-          pieceOnBoard = pieceFinder.test(i,j);
+  private void checkValidMoves(int currentKnightX, int currentKnightY) {
+    VALID_MOVES.forEach((move)->{
+      if(currentKnightX+move.getX()<0 || currentKnightY+move.getY()<0 || currentKnightX+move.getX() >= BOARD_SIZE || currentKnightY+move.getY() >= BOARD_SIZE) {
+        assertThrows(IndexOutOfBoundsException.class, () -> logics.hit(currentKnightX+move.getX(),currentKnightY+move.getY()));
+      }else{
+        logics.hit(currentKnightX+move.getX(), currentKnightY+move.getY());
       }
-    }
-    return pieceOnBoard;
+    });
   }
+
+  private void movePawnAway(int i, int j) {
+    int newPawnXCoordinate = i > 0 ? 0 : 2;
+    int newPawnYCoordinate = j > 0 ? 0 : 2;
+    if(!logics.hasKnight(newPawnXCoordinate,newPawnYCoordinate)) {
+      logics.setPawnPosition(newPawnXCoordinate, newPawnYCoordinate);
+    }else {
+      logics.setPawnPosition(1, 1);
+    }
+  }
+
   @BeforeEach
   public void initBoard(){
     logics = new LogicsImpl(BOARD_SIZE);
@@ -89,34 +99,32 @@ public class LogicTest {
   public void moveKnight(){
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE; j++) {
-        if(logics.hasPawn(i,j)){
-          this.movePawnAway(i,j);
-        }
-        logics.setKnightPosition(i,j);
+        this.setupPawnPosition(i, j);
+        this.logics.setKnightPosition(i,j);
         this.checkValidMoves(i,j);
       }
     }
   }
 
-  private void checkValidMoves(int currentKnightX, int currentKnightY) {
-    VALID_MOVES.forEach((move)->{
-      if(currentKnightX+move.getX()<0 || currentKnightY+move.getY()<0 || currentKnightX+move.getX() >= BOARD_SIZE || currentKnightY+move.getY() >= BOARD_SIZE) {
-        assertThrows(IndexOutOfBoundsException.class, () -> logics.hit(currentKnightX+move.getX(),currentKnightY+move.getY()));
-      }else{
-        logics.hit(currentKnightX+move.getX(), currentKnightY+move.getY());
-      }
-    });
-  }
-
-  private void movePawnAway(int i, int j) {
-    int newPawnXCoordinate = i > 0 ? 0 : 2;
-    int newPawnYCoordinate = j > 0 ? 0 : 2;
-    if(!logics.hasKnight(newPawnXCoordinate,newPawnYCoordinate)) {
-      logics.setPawnPosition(newPawnXCoordinate, newPawnYCoordinate);
-    }else {
-      logics.setPawnPosition(1, 1);
+  private void setupPawnPosition(int xCoordinate, int yCoordinate) {
+    if(logics.hasPawn(xCoordinate, yCoordinate)){
+      this.movePawnAway(xCoordinate,yCoordinate);
     }
   }
+
+  @Test
+  public void checkWinningSituation(){
+    int knightX = 0;
+    int knightY = 0;
+    int pawnX = 1;
+    int pawnY = 2;
+    setupPawnPosition(knightX, knightY);
+    logics.setKnightPosition(knightX,knightY);
+    logics.setPawnPosition(pawnX,pawnY);
+    assertTrue(logics.hit(pawnX,pawnY));
+  }
+
+
 
 
 }
