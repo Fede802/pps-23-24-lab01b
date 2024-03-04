@@ -1,10 +1,8 @@
 package e1;
 import org.junit.jupiter.api.*;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class LogicTest {
@@ -12,31 +10,24 @@ public class LogicTest {
   private final static int BOARD_SIZE = 5;
   private Logics logics;
 
+  private boolean isPieceOnBoard(BiPredicate<Integer,Integer> pieceFinder) {
+    boolean pieceOnBoard = false;
+    for (int i = 0; i < BOARD_SIZE; i++) {
+      for (int j = 0; j < BOARD_SIZE; j++) {
+        if(!pieceOnBoard)
+          pieceOnBoard = pieceFinder.test(i,j);
+      }
+    }
+    return pieceOnBoard;
+  }
   @BeforeEach
   public void initBoard(){
     logics = new LogicsImpl(BOARD_SIZE);
   }
-  @Test
-  public void test() {
-    assert(true);
-    // TODO: Add your test logic here
-    // You can generate random inputs and assert the expected output
-    // For example:
-    // int result = Logic.someMethod(5, 10);
-    // assertEquals(expectedResult, result);
-  }
 
   @Test
   public void knightPlacedOnBoard(){
-
-    boolean knightOnBoard = false;
-    for (int i = 0; i < BOARD_SIZE; i++) {
-      for (int j = 0; j < BOARD_SIZE; j++) {
-          if(!knightOnBoard)
-              knightOnBoard = logics.hasKnight(i,j);
-      }
-    }
-    assertTrue(knightOnBoard);
+    assertTrue(isPieceOnBoard((i,j) -> logics.hasKnight(i,j)));
   }
 
   @Test
@@ -67,16 +58,11 @@ public class LogicTest {
 
   @Test
   public void pawnPlacedOnBoard(){
-
-    boolean pawnOnBoard = false;
-    for (int i = 0; i < BOARD_SIZE; i++) {
-      for (int j = 0; j < BOARD_SIZE; j++) {
-        if(!pawnOnBoard)
-          pawnOnBoard = logics.hasPawn(i,j);
-      }
-    }
-    assertTrue(pawnOnBoard);
+      assertTrue(isPieceOnBoard((i,j) -> logics.hasPawn(i,j)));
   }
+
+
+
 
 
 
