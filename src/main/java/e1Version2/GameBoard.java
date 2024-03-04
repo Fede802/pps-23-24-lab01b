@@ -7,4 +7,8 @@ public interface GameBoard {
     Optional<Pair<Integer,Integer>> getKnight();
 
     Optional<Pair<Integer,Integer>> getPawn();
+
+    void placeKnight(int knightX, int knightY);
+
+    void placePawn(int pawnX, int pawnY);
 }
