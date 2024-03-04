@@ -86,7 +86,20 @@ public class LogicTest {
     );
   }
 
-
+  @Test
+  public void spawnKnightOverPawn(){
+    int xCoordinate = 3;
+    int yCoordinate = 3;
+    logics.setPawnPosition(xCoordinate,yCoordinate);
+    assertThrows(IllegalStateException.class,()->logics.setKnightPosition(xCoordinate,yCoordinate));
+  }
+  @Test
+  public void spawnPawnOverKnight(){
+    int xCoordinate = 3;
+    int yCoordinate = 3;
+    logics.setKnightPosition(xCoordinate,yCoordinate);
+    assertThrows(IllegalStateException.class,()-> logics.setPawnPosition(xCoordinate,yCoordinate));
+  }
 
 
 

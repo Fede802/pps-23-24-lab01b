@@ -57,6 +57,9 @@ public class LogicsImpl implements Logics {
 		if (knightXCoordinate<0 || knightYCoordinate<0 || knightXCoordinate >= this.size || knightYCoordinate >= this.size) {
 			throw new IllegalArgumentException();
 		}
+		if (this.pawn.equals(new Pair<>(knightXCoordinate,knightYCoordinate))){
+			throw new IllegalStateException();
+		}
 		this.knight = new Pair<>(knightXCoordinate,knightYCoordinate);
 	}
 
@@ -64,6 +67,9 @@ public class LogicsImpl implements Logics {
 	public void setPawnPosition(int pawnXCoordinate, int pawnYCoordinate) throws IllegalArgumentException {
 		if (pawnXCoordinate<0 || pawnYCoordinate<0 || pawnXCoordinate >= this.size || pawnYCoordinate >= this.size) {
 			throw new IllegalArgumentException();
+		}
+		if (this.knight.equals(new Pair<>(pawnXCoordinate,pawnYCoordinate))){
+			throw new IllegalStateException();
 		}
 		this.pawn = new Pair<>(pawnXCoordinate,pawnYCoordinate);
 	}
