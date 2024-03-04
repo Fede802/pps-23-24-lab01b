@@ -46,6 +46,9 @@ public class LogicsImpl implements Logics {
 
 	@Override
 	public boolean hasPawn(int row, int col) {
+		if (row<0 || col<0 || row >= this.size || col >= this.size) {
+			throw new IllegalArgumentException();
+		}
 		return this.pawn.equals(new Pair<>(row,col));
 	}
 

@@ -69,6 +69,22 @@ public class LogicTest {
     assertTrue(logics.hasPawn(pawnXCoordinate,pawnYCoordinate));
   }
 
+  @Test
+  public void pawnPlacedIncorrectlyOnBoard(){
+    assertAll(
+            () -> assertThrows(IllegalArgumentException.class,()->logics.setPawnPosition(-1,-1)),
+            () -> assertThrows(IllegalArgumentException.class,()->logics.setPawnPosition(BOARD_SIZE,BOARD_SIZE))
+    );
+
+  }
+
+  @Test
+  public void pawnSearchIncorrectlyOnBoard(){
+    assertAll(
+            () -> assertThrows(IllegalArgumentException.class,()->logics.hasPawn(-1,-1)),
+            () -> assertThrows(IllegalArgumentException.class,()->logics.hasPawn(BOARD_SIZE,BOARD_SIZE))
+    );
+  }
 
 
 
