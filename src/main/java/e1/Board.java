@@ -9,4 +9,6 @@ public interface Board {
     void fillCell(int cellX, int cellY);
 
     int getNumberOfElements();
+
+    void emptyCell(int cellX, int cellY);
 }

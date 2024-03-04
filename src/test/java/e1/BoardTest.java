@@ -41,6 +41,15 @@ public class BoardTest {
         assertEquals(BOARD_SIZE*BOARD_SIZE, this.board.getNumberOfElements());
     }
 
+    @Test
+    void emptyBoardCell(){
+        int cellX = 0;
+        int cellY = 0;
+        this.board.fillCell(0,0);
+        this.board.emptyCell(0,0);
+        assertTrue(this.board.isEmpty());
+    }
+
 
 
 }

@@ -42,4 +42,9 @@ public class BoardImpl implements Board {
         return (int) this.board.stream().flatMap(Collection::stream).filter(i -> i).count();
     }
 
+    @Override
+    public void emptyCell(int cellX, int cellY) {
+        this.board.get(cellX).set(cellY,false);
+    }
+
 }
