@@ -9,4 +9,6 @@ public interface GameBoard {
     int size();
 
     void placeKnight(int knightX, int knightY) throws IllegalArgumentException;
+
+    void placePawn(int pawnX, int pawnY);
 }

@@ -40,8 +40,8 @@ public class GameBoardTest {
     @Test
     void isKnightAndPawnInitiallyOnBoard(){
         assertAll(
-                () -> assertNotNull(this.board.getKnight()),
-                () -> assertNotNull(this.board.getPawn())
+                () -> assertFalse(this.board.getKnight().isPresent()),
+                () -> assertFalse(this.board.getPawn().isPresent())
         );
     }
     @Test
@@ -54,5 +54,17 @@ public class GameBoardTest {
     @Test
     void wrongPlaceKnightOnBoard(){
         this.checkInvalidPositions((i,j)->this.board.placeKnight(i,j));
+    }
+
+    @Test
+    void placePawnOnBoard(){
+        int pawnX = 0;
+        int pawnY = 0;
+        this.board.placePawn(pawnX,pawnY);
+        assertEquals(new Pair<>(pawnX,pawnY),this.board.getPawn().orElse(INVALID_POSITIONS.get(0)));
+    }
+    @Test
+    void wrongPlacePawnOnBoard(){
+        this.checkInvalidPositions((i,j)->this.board.placePawn(i,j));
     }
 }
