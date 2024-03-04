@@ -61,6 +61,15 @@ public class LogicTest {
       assertTrue(isPieceOnBoard((i,j) -> logics.hasPawn(i,j)));
   }
 
+  @Test
+  public void pawnPlacedCorrectlyOnBoard(){
+    int pawnXCoordinate = 3;
+    int pawnYCoordinate = 3;
+    logics.setPawnPosition(pawnXCoordinate,pawnYCoordinate);
+    assertTrue(logics.hasPawn(pawnXCoordinate,pawnYCoordinate));
+  }
+
+
 
 
 

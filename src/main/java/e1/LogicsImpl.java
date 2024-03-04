@@ -4,7 +4,7 @@ import java.util.*;
 
 public class LogicsImpl implements Logics {
 	
-	private final Pair<Integer,Integer> pawn;
+	private Pair<Integer,Integer> pawn;
 	private Pair<Integer,Integer> knight;
 	private final Random random = new Random();
 	private final int size;
@@ -55,5 +55,13 @@ public class LogicsImpl implements Logics {
 			throw new IllegalArgumentException();
 		}
 		this.knight = new Pair<>(knightXCoordinate,knightYCoordinate);
+	}
+
+	@Override
+	public void setPawnPosition(int pawnXCoordinate, int pawnYCoordinate) throws IllegalArgumentException {
+		if (pawnXCoordinate<0 || pawnYCoordinate<0 || pawnXCoordinate >= this.size || pawnYCoordinate >= this.size) {
+			throw new IllegalArgumentException();
+		}
+		this.pawn = new Pair<>(pawnXCoordinate,pawnYCoordinate);
 	}
 }
