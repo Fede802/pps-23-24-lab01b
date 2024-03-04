@@ -5,8 +5,10 @@ import java.util.*;
 public class LogicsImpl implements Logics {
 	
 
-	private final Random random = new Random();
+
 	private final GameBoard gameBoard;
+	private final PositionGenerator positionGenerator;
+
 	 
     public LogicsImpl(int size){
     	this.gameBoard = new GameBoardImpl(size);
@@ -14,11 +16,13 @@ public class LogicsImpl implements Logics {
         this.gameBoard.placeKnight(knightPosition.getX(),knightPosition.getY());
 		Pair<Integer,Integer> pawnPosition = this.randomEmptyPosition();
 		this.gameBoard.placePawn(pawnPosition.getX(),pawnPosition.getY());
+		this.positionGenerator = new RandomPositionGenerator();
+
 
     }
     
 	private final Pair<Integer,Integer> randomEmptyPosition(){
-    	Pair<Integer,Integer> pos = new Pair<>(this.random.nextInt(gameBoard.size()),this.random.nextInt(gameBoard.size()));
+    	Pair<Integer,Integer> pos = this.positionGenerator.generatePosition(gameBoard.size());
     	// the recursive call below prevents clash with an existing pawn
     	return this.gameBoard.getPawn().isPresent() && this.gameBoard.getPawn().get().equals(pos) ? randomEmptyPosition() : pos;
     }
