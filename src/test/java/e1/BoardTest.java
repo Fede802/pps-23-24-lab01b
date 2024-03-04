@@ -3,8 +3,7 @@ package e1;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
 
@@ -13,17 +12,35 @@ public class BoardTest {
 
     @BeforeEach
     void initBoard(){
-        board = new BoardImpl(BOARD_SIZE);
+        this.board = new BoardImpl(BOARD_SIZE);
     }
 
     @Test
     void isBoardInitiallyEmpty(){
-        assertTrue(board.isEmpty());
+        assertTrue(this.board.isEmpty());
     }
 
     @Test
     void isBoardSizeSetCorrectly(){
         assertEquals(BOARD_SIZE,this.board.size());
     }
+
+    @Test
+    void fillBoardCell(){
+        this.board.fillCell(0,0);
+        assertFalse(this.board.isEmpty());
+    }
+
+    @Test
+    void fillAllBoard(){
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                this.board.fillCell(i,j);
+            }
+        }
+        assertEquals(BOARD_SIZE*BOARD_SIZE, this.board.getNumberOfElements());
+    }
+
+
 
 }
