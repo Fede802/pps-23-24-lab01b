@@ -43,8 +43,13 @@ public class BoardTest {
     }
     @Test
     void fillBoardCell(){
-        this.board.fillCell(0,0);
-        assertFalse(this.board.isEmpty());
+        int cellX = 0;
+        int cellY = 0;
+        Pair<Integer,Integer> cellPosition = this.board.fillCell(cellX,cellY);
+        assertAll(
+                ()->assertFalse(this.board.isEmpty()),
+                ()->assertEquals(new Pair<>(0,0),cellPosition)
+        );
     }
     @Test
     void wrongFillBoardCell(){

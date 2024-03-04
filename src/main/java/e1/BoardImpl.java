@@ -38,9 +38,10 @@ public class BoardImpl implements Board {
     }
 
     @Override
-    public void fillCell(int cellX, int cellY) {
+    public Pair<Integer, Integer> fillCell(int cellX, int cellY) {
         this.checkCellCoordinates(cellX,cellY);
         this.board.get(cellX).set(cellY,true);
+        return new Pair<>(cellX,cellY);
     }
 
 

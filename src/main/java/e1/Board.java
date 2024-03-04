@@ -6,7 +6,7 @@ public interface Board {
 
     int size();
 
-    void fillCell(int cellX, int cellY) throws IllegalArgumentException;
+    Pair<Integer, Integer> fillCell(int cellX, int cellY) throws IllegalArgumentException;
 
     int getNumberOfElements();
 
