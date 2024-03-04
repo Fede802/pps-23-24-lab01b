@@ -1,5 +1,11 @@
 package e1;
 import org.junit.jupiter.api.*;
+
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.*;
 public class LogicTest {
 
@@ -20,7 +26,8 @@ public class LogicTest {
     boolean knightOnBoard = false;
     for (int i = 0; i < boardSize; i++) {
       for (int j = 0; j < boardSize; j++) {
-          knightOnBoard = logics.hasKnight(i,j);
+          if(!knightOnBoard)
+              knightOnBoard = logics.hasKnight(i,j);
       }
     }
     assertTrue(knightOnBoard);
@@ -30,13 +37,12 @@ public class LogicTest {
   public void knightPlacedCorrectlyOnBoard(){
     int boardSize = 5;
     Logics logics = new LogicsImpl(boardSize);
-    boolean knightOnBoard = false;
-    for (int i = 0; i < boardSize; i++) {
-      for (int j = 0; j < boardSize; j++) {
-        knightOnBoard = logics.hasKnight(i,j);
-      }
-    }
-    assertTrue(knightOnBoard);
+    int knightXCoordinate = 3;
+    int knightYCoordinate = 3;
+    logics.setKnightPosition(knightXCoordinate,knightYCoordinate);
+    assertTrue(logics.hasKnight(knightXCoordinate,knightYCoordinate));
   }
+
+
 
 }

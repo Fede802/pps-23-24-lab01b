@@ -45,4 +45,9 @@ public class LogicsImpl implements Logics {
 	public boolean hasPawn(int row, int col) {
 		return this.pawn.equals(new Pair<>(row,col));
 	}
+
+	@Override
+	public void setKnightPosition(int knightXCoordinate, int knightYCoordinate) {
+		this.knight = new Pair<>(knightXCoordinate,knightYCoordinate);
+	}
 }
