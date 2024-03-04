@@ -43,6 +43,24 @@ public class LogicTest {
     assertTrue(logics.hasKnight(knightXCoordinate,knightYCoordinate));
   }
 
+  @Test
+  public void knightPlacedIncorrectlyOnBoard(){
+    int boardSize = 5;
+    Logics logics = new LogicsImpl(boardSize);
+    int knightNegativeXCoordinate = -1;
+    int knightNegativeYCoordinate = -1;
+    logics.setKnightPosition(knightNegativeXCoordinate,knightNegativeYCoordinate);
+    int knightExcessiveXCoordinate = 6;
+    int knightExcessiveYCoordinate = 6;
+    logics.setKnightPosition(knightExcessiveXCoordinate,knightExcessiveYCoordinate);
+    logics.setKnightPosition(knightNegativeXCoordinate,knightNegativeYCoordinate);
+    assertAll(
+            () -> assertThrows(IllegalArgumentException.class, () -> logics.hasKnight(knightNegativeXCoordinate,knightNegativeYCoordinate)),
+            () -> assertThrows(IllegalArgumentException.class, () -> logics.hasKnight(knightExcessiveXCoordinate,knightExcessiveYCoordinate))
+    );
+
+  }
+
 
 
 }

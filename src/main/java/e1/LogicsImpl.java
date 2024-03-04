@@ -38,6 +38,8 @@ public class LogicsImpl implements Logics {
 
 	@Override
 	public boolean hasKnight(int row, int col) {
+		if (row<0 || col<0 || row >= this.size || col >= this.size)
+			throw new IllegalArgumentException();
 		return this.knight.equals(new Pair<>(row,col));
 	}
 

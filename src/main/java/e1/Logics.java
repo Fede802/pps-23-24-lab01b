@@ -16,7 +16,7 @@ public interface Logics{
      * @param col
      * @return whether position row,col has the knight
      */
-    boolean hasKnight(int row, int col);
+    boolean hasKnight(int row, int col) throws IllegalArgumentException;
     
     /**
      * @param row
