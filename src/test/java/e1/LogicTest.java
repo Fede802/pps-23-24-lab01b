@@ -31,12 +31,17 @@ public class LogicTest {
   }
 
   @Test
-  public void knightPlacedCorrectlyOnBoard(){
-
-    int knightXCoordinate = 3;
-    int knightYCoordinate = 3;
+  public void knightAndPawnPlacedCorrectlyOnBoard(){
+    int knightXCoordinate = 2;
+    int knightYCoordinate = 2;
     logics.setKnightPosition(knightXCoordinate,knightYCoordinate);
-    assertTrue(logics.hasKnight(knightXCoordinate,knightYCoordinate));
+    int pawnXCoordinate = 3;
+    int pawnYCoordinate = 3;
+    logics.setPawnPosition(pawnXCoordinate,pawnYCoordinate);
+    assertAll(
+            () -> assertTrue(logics.hasKnight(knightXCoordinate,knightYCoordinate)),
+            () -> assertTrue(logics.hasPawn(pawnXCoordinate,pawnYCoordinate))
+    );
   }
 
   @Test
@@ -59,14 +64,6 @@ public class LogicTest {
   @Test
   public void pawnPlacedOnBoard(){
       assertTrue(isPieceOnBoard((i,j) -> logics.hasPawn(i,j)));
-  }
-
-  @Test
-  public void pawnPlacedCorrectlyOnBoard(){
-    int pawnXCoordinate = 3;
-    int pawnYCoordinate = 3;
-    logics.setPawnPosition(pawnXCoordinate,pawnYCoordinate);
-    assertTrue(logics.hasPawn(pawnXCoordinate,pawnYCoordinate));
   }
 
   @Test
@@ -93,6 +90,7 @@ public class LogicTest {
     logics.setPawnPosition(xCoordinate,yCoordinate);
     assertThrows(IllegalStateException.class,()->logics.setKnightPosition(xCoordinate,yCoordinate));
   }
+
   @Test
   public void spawnPawnOverKnight(){
     int xCoordinate = 3;
@@ -101,7 +99,14 @@ public class LogicTest {
     assertThrows(IllegalStateException.class,()-> logics.setPawnPosition(xCoordinate,yCoordinate));
   }
 
+  @Test
+  public void moveKnight(){
+    for (int i = 0; i < BOARD_SIZE; i++) {
+      for (int j = 0; j < BOARD_SIZE; j++) {
 
+      }
+    }
+  }
 
 
 
