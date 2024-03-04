@@ -14,7 +14,6 @@ public class BoardImpl implements Board {
     public BoardImpl(int boardSize) {
         this.boardSize = boardSize;
         this.initBoard(boardSize);
-        System.out.println(board);
     }
 
     private void initBoard(int boardSize) {
@@ -27,6 +26,11 @@ public class BoardImpl implements Board {
         }
     }
 
+    private void checkCellCoordinates(int cellX, int cellY) {
+        if (cellX<0 || cellY<0 || cellX >= this.boardSize || cellY >= this.boardSize){
+            throw new IllegalArgumentException();
+        }
+    }
     @Override
     public boolean isEmpty() {
         return this.getNumberOfElements() == 0;
@@ -39,8 +43,11 @@ public class BoardImpl implements Board {
 
     @Override
     public void fillCell(int cellX, int cellY) {
+        this.checkCellCoordinates(cellX,cellY);
         this.board.get(cellX).set(cellY,true);
     }
+
+
 
     @Override
     public int getNumberOfElements() {
@@ -49,6 +56,7 @@ public class BoardImpl implements Board {
 
     @Override
     public void emptyCell(int cellX, int cellY) {
+        this.checkCellCoordinates(cellX,cellY);
         this.board.get(cellX).set(cellY,false);
     }
 
@@ -59,6 +67,7 @@ public class BoardImpl implements Board {
 
     @Override
     public boolean isCellFilled(int cellX, int cellY) {
+        this.checkCellCoordinates(cellX,cellY);
         return this.board.get(cellX).get(cellY);
     }
 

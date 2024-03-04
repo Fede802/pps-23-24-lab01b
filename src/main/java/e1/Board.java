@@ -6,13 +6,13 @@ public interface Board {
 
     int size();
 
-    void fillCell(int cellX, int cellY);
+    void fillCell(int cellX, int cellY) throws IllegalArgumentException;
 
     int getNumberOfElements();
 
-    void emptyCell(int cellX, int cellY);
+    void emptyCell(int cellX, int cellY) throws IllegalArgumentException;
 
     void resetBoard();
 
-    boolean isCellFilled(int cellX, int cellY);
+    boolean isCellFilled(int cellX, int cellY) throws IllegalArgumentException;
 }
