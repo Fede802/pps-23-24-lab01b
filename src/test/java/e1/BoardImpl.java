@@ -9,10 +9,15 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class BoardImpl implements Board {
-    private int boardSize;
+    private final int boardSize;
     private List<List<Boolean>> board;
     public BoardImpl(int boardSize) {
         this.boardSize = boardSize;
+        this.initBoard(boardSize);
+        System.out.println(board);
+    }
+
+    private void initBoard(int boardSize) {
         this.board = new ArrayList<>();
         for (int i = 0; i < boardSize; i++) {
             this.board.add(new ArrayList<>());
@@ -20,8 +25,8 @@ public class BoardImpl implements Board {
                 this.board.get(i).add(false);
             }
         }
-        System.out.println(board);
     }
+
     @Override
     public boolean isEmpty() {
         return this.getNumberOfElements() == 0;
@@ -45,6 +50,11 @@ public class BoardImpl implements Board {
     @Override
     public void emptyCell(int cellX, int cellY) {
         this.board.get(cellX).set(cellY,false);
+    }
+
+    @Override
+    public void resetBoard() {
+        this.initBoard(boardSize);
     }
 
 }

@@ -11,4 +11,6 @@ public interface Board {
     int getNumberOfElements();
 
     void emptyCell(int cellX, int cellY);
+
+    void resetBoard();
 }

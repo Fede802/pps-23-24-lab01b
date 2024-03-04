@@ -45,8 +45,15 @@ public class BoardTest {
     void emptyBoardCell(){
         int cellX = 0;
         int cellY = 0;
+        this.board.fillCell(cellX,cellY);
+        this.board.emptyCell(cellX,cellY);
+        assertTrue(this.board.isEmpty());
+    }
+
+    @Test
+    void resetBoard(){
         this.board.fillCell(0,0);
-        this.board.emptyCell(0,0);
+        this.board.resetBoard();
         assertTrue(this.board.isEmpty());
     }
 
