@@ -14,13 +14,19 @@ public class MovablePieceTest extends PieceTest{
     private Movement movement;
     @BeforeEach
     void init(){
-        movement = new KnightMovement();
-        piece = new MovablePieceImpl();
+        this.movement = new KnightMovement();
+        this.piece = new MovablePieceImpl();
     }
 
     @Test
     void isMovementInitiallyUnset(){
-        Assertions.assertFalse(((MovablePiece) piece).hasMovement());
+        assertFalse(((MovablePiece) piece).hasMovement());
+    }
+
+    @Test
+    void buildPieceWithMovement(){
+        this.piece = new MovablePieceImpl(this.movement);
+        assertTrue(((MovablePiece) piece).hasMovement());
     }
 
     @Test

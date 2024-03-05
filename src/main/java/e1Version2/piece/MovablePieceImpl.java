@@ -7,6 +7,12 @@ import java.util.Optional;
 
 public class MovablePieceImpl implements MovablePiece {
 
+    public MovablePieceImpl(Movement movement) {
+        this.movement = movement;
+    }
+
+    public MovablePieceImpl() {}
+
     @Override
     public Optional<Pair<Integer, Integer>> getPiece() {
         return this.piece.getPiece();
