@@ -10,13 +10,14 @@ import java.util.Optional;
 
 public class LogicsImpl implements Logics{
 
-    private final static int BOARD_SIZE = 5;
+
     private final GameBoard gameBoard;
     private final PositionGenerator positionGenerator;
 
-    public LogicsImpl(){
-        this.gameBoard = new CheckedGameBoard(BOARD_SIZE);
-        this.positionGenerator = new RandomPositionGenerator();
+    public LogicsImpl(int boardSize, PositionGenerator positionGenerator){
+        this.gameBoard = new CheckedGameBoard(boardSize);
+        this.positionGenerator = positionGenerator;
+
         Pair<Integer,Integer> knightPosition = this.randomEmptyPosition();
         this.gameBoard.placeKnight(knightPosition.getX(),knightPosition.getY());
         Pair<Integer,Integer> pawnPosition = this.randomEmptyPosition();

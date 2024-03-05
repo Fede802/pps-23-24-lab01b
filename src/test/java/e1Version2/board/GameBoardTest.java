@@ -32,7 +32,7 @@ public abstract class GameBoardTest {
                 )
         );
     }
-    private GameBoard gameBoard;
+    protected GameBoard gameBoard;
 
     @BeforeEach
     public void init(){

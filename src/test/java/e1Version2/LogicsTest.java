@@ -1,7 +1,7 @@
 package e1Version2;
 
-import e1.Logics;
-import e1.LogicsImpl;
+
+import e1Version2.utils.RandomPositionGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ public class LogicsTest {
     }
     @BeforeEach
     public void initBoard(){
-        this.logics = new LogicsImpl(BOARD_SIZE);
+        this.logics = new LogicsImpl(BOARD_SIZE, new RandomPositionGenerator());
     }
 
     @Test

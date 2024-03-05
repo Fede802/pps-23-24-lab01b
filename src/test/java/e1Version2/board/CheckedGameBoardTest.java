@@ -9,13 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CheckedGameBoardTest extends GameBoardTest {
-
-
-    private GameBoard gameBoard;
     @Override
     protected GameBoard createGameBoard() { //todo check template
-        gameBoard = new CheckedGameBoard(BOARD_SIZE);
-        return gameBoard;
+        return new CheckedGameBoard(BOARD_SIZE);
     }
 
     @Test
