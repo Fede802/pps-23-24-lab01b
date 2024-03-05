@@ -71,14 +71,7 @@ public class BoardTest {
         this.checkInvalidPositions((i,j)->this.board.placePawn(new Pair<>(i,j)));
     }
 
-    @Test
-    void checkBoardPositions(){
-        assertAll(
-                () -> assertTrue(this.board.isValidCell(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY())),
-                () -> assertFalse(this.board.isValidCell(INVALID_POSITIONS.get(0).getX(),INVALID_POSITIONS.get(0).getY()))
 
-        );
-    }
 
     @Test
     void knightMovement(){
@@ -98,5 +91,43 @@ public class BoardTest {
         int wrongColumn = -1;
         this.board.placeKnight(new Pair<>(knightX,knightY));
         assertThrows(IndexOutOfBoundsException.class, ()-> this.board.moveKnightTo(wrongRow,wrongColumn));
+    }
+
+    @Test
+    void checkPawnPlacement(){
+        Pair<Integer,Integer> pawnPosition = new Pair<>(3,3);
+        this.board.placePawn(pawnPosition);
+        assertTrue(this.board.hasPawn(pawnPosition));
+    }
+
+    @Test
+    void checkPawnPlacementWithoutPlacingPawn(){
+        Pair<Integer,Integer> pawnPosition = new Pair<>(3,3);
+        assertFalse(this.board.hasPawn(pawnPosition));
+    }
+
+    @Test
+    void checkWrongPawnPlacementWithoutPlacingPawn(){
+        Pair<Integer,Integer> pawnPosition = new Pair<>(-1,-1);
+        assertThrows(IndexOutOfBoundsException.class, () -> this.board.hasPawn(pawnPosition));
+    }
+
+    @Test
+    void checkKnightPlacement(){
+        Pair<Integer,Integer> knightPosition = new Pair<>(3,3);
+        this.board.placeKnight(knightPosition);
+        assertTrue(this.board.hasKnight(knightPosition));
+    }
+
+    @Test
+    void checkKnightPlacementWithoutPlacingKnight(){
+        Pair<Integer,Integer> knightPosition = new Pair<>(3,3);
+        assertFalse(this.board.hasKnight(knightPosition));
+    }
+
+    @Test
+    void checkWrongKnightPlacementWithoutPlacingKnight(){
+        Pair<Integer,Integer> knightPosition = new Pair<>(-1,-1);
+        assertThrows(IndexOutOfBoundsException.class, () -> this.board.hasKnight(knightPosition));
     }
 }

@@ -35,12 +35,6 @@ public class LogicsImpl implements Logics{
         }
     }
 
-    private boolean checkPieceInPosition(Piece.Pieces pieceType, int row, int col) {
-        Optional<Pair<Integer,Integer>> piece = pieceType == Piece.Pieces.KNIGHT?this.gameBoard.getKnightPosition():this.gameBoard.getPawnPosition();
-        return piece.isPresent() && piece.get().equals(new Pair<>(row, col));
-    }
-
-
     @Override
     public boolean hit(int row, int column) {
         this.gameBoard.moveKnightTo(row,column);
@@ -49,18 +43,12 @@ public class LogicsImpl implements Logics{
 
     @Override
     public boolean hasKnight(int row, int column) throws IndexOutOfBoundsException {
-        if(!this.gameBoard.isValidCell(row,column)){
-            throw new IndexOutOfBoundsException();
-        }
-        return checkPieceInPosition(Piece.Pieces.KNIGHT,row, column);
+        return gameBoard.hasKnight(new Pair<>(row,column));
     }
 
     @Override
     public boolean hasPawn(int row, int column) throws IndexOutOfBoundsException {
-        if(!this.gameBoard.isValidCell(row,column)){
-            throw new IndexOutOfBoundsException();
-        }
-        return checkPieceInPosition(Piece.Pieces.PAWN,row, column);
+        return gameBoard.hasPawn(new Pair<>(row,column));
     }
 
     @Override

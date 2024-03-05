@@ -53,15 +53,26 @@ public class BoardImpl implements Board {
         this.pawn.setPieceCoordinate(pawnCoordinates);
     }
 
-    @Override
-    public boolean isValidCell(int cellX, int cellY) {
+
+    private boolean isValidCell(int cellX, int cellY) {
         return cellX>=0 && cellY>=0 && cellX < this.boardSize && cellY < this.boardSize;
     }
 
-    //todo missing test
     @Override
     public void moveKnightTo(int row, int column) throws IndexOutOfBoundsException{
         this.checkCellCoordinates(new Pair<>(row,column));
         this.knight.moveTo(new Pair<>(row,column));
+    }
+
+    @Override
+    public boolean hasPawn(Pair<Integer, Integer> pawnPosition) throws IndexOutOfBoundsException {
+        this.checkCellCoordinates(pawnPosition);
+        return pawnPosition.equals(this.pawn.getPieceCoordinate().orElse(null));
+    }
+
+    @Override
+    public boolean hasKnight(Pair<Integer, Integer> knightPosition) throws IndexOutOfBoundsException {
+        this.checkCellCoordinates(knightPosition);
+        return knightPosition.equals(this.knight.getPieceCoordinate().orElse(null));
     }
 }
