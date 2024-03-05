@@ -5,11 +5,9 @@ import e1.LogicsImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
-import static e1Version2.GameBoardTest.BOARD_SIZE;
-import static e1Version2.GameBoardTest.KNIGHT_START_POSITION;
+import static e1Version2.board.GameBoardTest.BOARD_SIZE;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

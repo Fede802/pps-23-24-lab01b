@@ -1,4 +1,4 @@
-package e1Version2;
+package e1Version2.utils;
 
 
 import java.util.Random;

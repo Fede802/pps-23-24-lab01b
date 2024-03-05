@@ -1,8 +1,11 @@
-package e1Version2;
+package e1Version2.piece;
+
+import e1Version2.utils.Pair;
+import e1Version2.piece.movement.Movement;
 
 import java.util.Optional;
 
-public class MovablePieceImpl implements MovablePiece{
+public class MovablePieceImpl implements MovablePiece {
 
     @Override
     public Optional<Pair<Integer, Integer>> getPiece() {

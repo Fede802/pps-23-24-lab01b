@@ -1,6 +1,8 @@
-package e1Version2;
+package e1Version2.board;
 
 
+import e1Version2.board.GameBoard;
+import e1Version2.utils.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public abstract class GameBoardTest {
 
-    protected final static int BOARD_SIZE = 5;
+    public final static int BOARD_SIZE = 5;
 
     protected final static e1.Pair<Integer,Integer> KNIGHT_START_POSITION = new e1.Pair<>(1,1);
     protected final static e1.Pair<Integer,Integer> PAWN_START_POSITION = new e1.Pair<>(0,0);

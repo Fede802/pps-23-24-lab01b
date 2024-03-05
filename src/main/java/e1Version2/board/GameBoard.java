@@ -1,4 +1,6 @@
-package e1Version2;
+package e1Version2.board;
+
+import e1Version2.utils.Pair;
 
 import java.util.Optional;
 

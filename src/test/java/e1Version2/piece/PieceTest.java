@@ -1,6 +1,8 @@
-package e1Version2;
+package e1Version2.piece;
 
 
+import e1Version2.utils.Pair;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +27,7 @@ public class PieceTest {
         piece.setPiece(pieceX,pieceY);
         assertAll(
                 () -> assertTrue(piece.getPiece().isPresent()),
-                () -> assertEquals(new Pair<>(pieceX,pieceY),piece.getPiece().orElseThrow())
+                () -> Assertions.assertEquals(new Pair<>(pieceX,pieceY),piece.getPiece().orElseThrow())
         );
     }
 

@@ -1,6 +1,6 @@
-package e1Version2;
+package e1Version2.board;
 
-public class BaseGameBoardTest extends GameBoardTest{
+public class BaseGameBoardTest extends GameBoardTest {
 
     @Override
     protected GameBoard createGameBoard() {

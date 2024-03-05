@@ -1,5 +1,11 @@
 package e1Version2;
 
+import e1Version2.board.CheckedGameBoard;
+import e1Version2.board.GameBoard;
+import e1Version2.utils.Pair;
+import e1Version2.utils.PositionGenerator;
+import e1Version2.utils.RandomPositionGenerator;
+
 import java.util.Optional;
 
 public class LogicsImpl implements Logics{

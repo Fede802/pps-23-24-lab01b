@@ -1,5 +1,9 @@
-package e1Version2;
+package e1Version2.piece;
 
+import e1Version2.piece.movement.KnightMovement;
+import e1Version2.piece.movement.Movement;
+import e1Version2.utils.Pair;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +20,7 @@ public class MovablePieceTest extends PieceTest{
 
     @Test
     void isMovementInitiallyUnset(){
-        assertFalse(((MovablePiece) piece).hasMovement());
+        Assertions.assertFalse(((MovablePiece) piece).hasMovement());
     }
 
     @Test

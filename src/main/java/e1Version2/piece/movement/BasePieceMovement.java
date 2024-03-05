@@ -1,6 +1,9 @@
-package e1Version2;
+package e1Version2.piece.movement;
 
-public abstract class BasePieceMovement implements Movement{
+import e1Version2.utils.Pair;
+import e1Version2.piece.Piece;
+
+public abstract class BasePieceMovement implements Movement {
 
 
 

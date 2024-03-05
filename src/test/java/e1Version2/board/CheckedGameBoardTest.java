@@ -1,11 +1,14 @@
-package e1Version2;
+package e1Version2.board;
 
+import e1Version2.board.CheckedGameBoard;
+import e1Version2.board.GameBoard;
+import e1Version2.board.GameBoardTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class CheckedGameBoardTest extends GameBoardTest{
+public class CheckedGameBoardTest extends GameBoardTest {
 
 
     private GameBoard gameBoard;

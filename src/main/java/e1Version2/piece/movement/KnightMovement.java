@@ -1,7 +1,6 @@
-package e1Version2;
+package e1Version2.piece.movement;
 
-import java.util.Arrays;
-import java.util.List;
+import e1Version2.utils.Pair;
 
 public class KnightMovement extends BasePieceMovement {
 
