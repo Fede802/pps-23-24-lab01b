@@ -27,9 +27,9 @@ public interface Logics{
 
 
 
-    void setKnightPosition(int knightXCoordinate, int knightYCoordinate) throws IllegalArgumentException;
+    void placeKnight(int knightXCoordinate, int knightYCoordinate) throws IllegalArgumentException;
 
-    void setPawnPosition(int pawnXCoordinate, int pawnYCoordinate) throws IllegalArgumentException;
+    void placePawn(int pawnXCoordinate, int pawnYCoordinate) throws IllegalArgumentException;
 
 
 }

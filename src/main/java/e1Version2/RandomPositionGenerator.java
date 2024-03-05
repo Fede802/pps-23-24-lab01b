@@ -1,6 +1,5 @@
 package e1Version2;
 
-import e1.Pair;
 
 import java.util.Random;
 
