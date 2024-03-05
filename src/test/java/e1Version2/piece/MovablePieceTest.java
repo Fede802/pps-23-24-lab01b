@@ -46,7 +46,7 @@ public class MovablePieceTest extends PieceTest{
         Pair<Integer,Integer> move = new Pair<>(destinationX,destinationY);
         assertAll(
                 () -> assertTrue(movement.isValidMovement(KnightMovement.VALID_MOVE)),
-                () -> assertTrue(((MovablePiece) piece).canMoveTo(move))
+                () -> assertDoesNotThrow(() -> (MovablePiece) piece).moveTo(move)
         );
     }
 
@@ -61,7 +61,7 @@ public class MovablePieceTest extends PieceTest{
         Pair<Integer,Integer> move = new Pair<>(destinationX,destinationY);
         assertAll(
                 () -> assertFalse(movement.isValidMovement(KnightMovement.INVALID_MOVE)),
-                () -> assertFalse(((MovablePiece) piece).canMoveTo(move))
+                () -> assertThrows(IllegalArgumentException.class,() -> ((MovablePiece) piece).moveTo(move))
         );
 
     }
@@ -74,7 +74,7 @@ public class MovablePieceTest extends PieceTest{
         int destinationX = pieceX + KnightMovement.VALID_MOVE.getX();
         int destinationY = pieceY + KnightMovement.VALID_MOVE.getY();
         Pair<Integer,Integer> move = new Pair<>(destinationX,destinationY);
-        assertThrows(IllegalStateException.class,() -> ((MovablePiece) piece).canMoveTo(move));
+        assertThrows(IllegalStateException.class,() -> ((MovablePiece) piece).moveTo(move));
 
     }
 
@@ -86,7 +86,7 @@ public class MovablePieceTest extends PieceTest{
         int destinationX = pieceX + KnightMovement.VALID_MOVE.getX();
         int destinationY = pieceY + KnightMovement.VALID_MOVE.getY();
         Pair<Integer,Integer> move = new Pair<>(destinationX,destinationY);
-        assertThrows(IllegalStateException.class,() -> ((MovablePiece) piece).canMoveTo(move));
+        assertThrows(IllegalStateException.class,() -> ((MovablePiece) piece).moveTo(move));
     }
 
 

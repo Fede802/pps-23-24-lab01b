@@ -13,7 +13,7 @@ import java.util.function.BiConsumer;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public abstract class GameBoardTest {
+public class GameBoardTest {
 
     public final static int BOARD_SIZE = 5;
 
@@ -36,10 +36,9 @@ public abstract class GameBoardTest {
 
     @BeforeEach
     public void init(){
-        gameBoard = this.createGameBoard();
+        gameBoard = new GameBoardImpl(BOARD_SIZE);
     }
 
-    protected abstract GameBoard createGameBoard();
 
     @Test
     void isBoardSizeSetCorrectly(){
@@ -49,8 +48,8 @@ public abstract class GameBoardTest {
     @Test
     void isKnightAndPawnInitiallyNotOnBoard(){
         assertAll(
-                () -> assertFalse(this.gameBoard.getKnight().getPiece().isPresent()),
-                () -> assertFalse(this.gameBoard.getPawn().getPiece().isPresent())
+                () -> assertFalse(this.gameBoard.getKnightPosition().isPresent()),
+                () -> assertFalse(this.gameBoard.getKnightPosition().isPresent())
         );
     }
 
@@ -59,7 +58,7 @@ public abstract class GameBoardTest {
         int knightX = KNIGHT_START_POSITION.getX();
         int knightY = KNIGHT_START_POSITION.getY();
         this.gameBoard.placeKnight(knightX,knightY);
-        assertEquals(new Pair<>(knightX,knightY),this.gameBoard.getKnight().getPiece().orElse(INVALID_POSITIONS.get(0)));
+        assertEquals(new Pair<>(knightX,knightY),this.gameBoard.getKnightPosition().orElse(INVALID_POSITIONS.get(0)));
     }
     @Test
     void wrongPlaceKnightOnBoard(){
@@ -71,7 +70,7 @@ public abstract class GameBoardTest {
         int pawnX = PAWN_START_POSITION.getX();
         int pawnY = PAWN_START_POSITION.getY();
         this.gameBoard.placePawn(pawnX,pawnY);
-        assertEquals(new Pair<>(pawnX,pawnY),this.gameBoard.getPawn().getPiece().orElse(INVALID_POSITIONS.get(0)));
+        assertEquals(new Pair<>(pawnX,pawnY),this.gameBoard.getPawnPosition().orElse(INVALID_POSITIONS.get(0)));
     }
     @Test
     void wrongPlacePawnOnBoard(){

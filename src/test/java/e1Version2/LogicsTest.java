@@ -45,32 +45,17 @@ public class LogicsTest {
     public void moveKnight(){
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                this.setupPawnPosition(i, j);
                 this.logics.setKnightPosition(i,j);
                 this.checkPossibleMoves(i,j);
             }
         }
     }
 
-    private void setupPawnPosition(int boardX, int boardY) {
-        if(this.logics.hasPawn(boardX, boardY)){
-            this.movePawnAway(boardX,boardY);
-        }
-    }
 
-    private void movePawnAway(int boardX, int boardY) {
-        int newPawnXCoordinate = boardX > 0 ? 0 : 2;
-        int newPawnYCoordinate = boardY > 0 ? 0 : 2;
-        if(!this.logics.hasKnight(newPawnXCoordinate,newPawnYCoordinate)) {
-            this.logics.setPawnPosition(newPawnXCoordinate, newPawnYCoordinate);
-        }else {
-            this.logics.setPawnPosition(1, 1);
-        }
-    }
 
     private void checkPossibleMoves(int currentKnightX, int currentKnightY) {
         this.executeValidMoves(currentKnightX,currentKnightY);
-//        this.checkInvalidMoves(currentKnightX,currentKnightY);
+        this.checkInvalidMoves(currentKnightX,currentKnightY);
     }
 
 
@@ -87,8 +72,7 @@ public class LogicsTest {
                     System.out.println("LogicTest moveX"+move.getX());
                     System.out.println("LogicTest moveY"+move.getY());
                     this.logics.hit(currentKnightX + move.getX(), currentKnightY + move.getY());
-//                    this.setupPawnPosition(currentKnightX,currentKnightY);
-//                    this.logics.setKnightPosition(currentKnightX,currentKnightY);
+                    this.logics.setKnightPosition(currentKnightX,currentKnightY);
                     System.out.println("---------------------");
                 }
         );
@@ -127,4 +111,15 @@ public class LogicsTest {
     private boolean isNotValidBoardPosition(int boardX, int boardY){
         return boardX < 0 || boardY < 0 || boardX >= BOARD_SIZE || boardY >= BOARD_SIZE;
     }
+    @Test
+    public void checkWinningSituation(){
+        int knightX = 0;
+        int knightY = 0;
+        int pawnX = 1;
+        int pawnY = 2;
+        this.logics.setKnightPosition(knightX,knightY);
+        this.logics.setPawnPosition(pawnX,pawnY);
+        assertTrue(this.logics.hit(pawnX,pawnY));
+    }
+
 }

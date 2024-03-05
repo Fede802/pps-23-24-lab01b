@@ -6,5 +6,5 @@ import e1Version2.utils.Pair;
 public interface MovablePiece extends Piece {
     void setMovement(Movement movement);
     boolean hasMovement();
-    boolean canMoveTo(Pair<Integer,Integer> destination) throws IllegalArgumentException, IllegalStateException;
+    void moveTo(Pair<Integer, Integer> destination) throws IllegalArgumentException, IllegalStateException;;
 }

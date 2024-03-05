@@ -7,13 +7,15 @@ import java.util.Optional;
 
 public interface GameBoard {
     int size();
-    MovablePiece getKnight();
+    Optional<Pair<Integer,Integer>> getKnightPosition();
 
-    MovablePiece getPawn();
+    Optional<Pair<Integer,Integer>> getPawnPosition();
 
     void placeKnight(int knightX, int knightY) throws IllegalArgumentException;
 
     void placePawn(int pawnX, int pawnY) throws IllegalArgumentException;
 
     boolean isValidCell(int cellX, int cellY);
+
+    void moveKnightTo(int row, int col);
 }

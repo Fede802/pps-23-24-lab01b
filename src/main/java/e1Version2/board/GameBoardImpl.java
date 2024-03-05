@@ -5,12 +5,12 @@ import e1Version2.utils.Pair;
 
 import java.util.Optional;
 
-public class BaseGameBoard implements GameBoard {
+public class GameBoardImpl implements GameBoard {
     private final int boardSize;
     private final MovablePiece knight;
     private final MovablePiece pawn;
 
-    public BaseGameBoard(int boardSize) {
+    public GameBoardImpl(int boardSize) {
         this.boardSize = boardSize;
         PieceFactory pieceFactory = new PieceFactoryImpl();
         this.knight = pieceFactory.createKnight();
@@ -18,6 +18,7 @@ public class BaseGameBoard implements GameBoard {
     }
     private void checkCellCoordinates(int cellX, int cellY) {
         if (!isValidCell(cellX,cellY)){
+            //todo maybe outofbound
             throw new IllegalArgumentException();
         }
     }
@@ -28,12 +29,12 @@ public class BaseGameBoard implements GameBoard {
     }
 
     @Override
-    public MovablePiece getKnight() {
-        return this.knight;
+    public Optional<Pair<Integer,Integer>> getKnightPosition() {
+        return this.knight.getPiece();
     }
     @Override
-    public MovablePiece getPawn() {
-        return this.pawn;
+    public Optional<Pair<Integer,Integer>> getPawnPosition() {
+        return this.pawn.getPiece();
     }
 
     @Override
@@ -51,6 +52,12 @@ public class BaseGameBoard implements GameBoard {
     @Override
     public boolean isValidCell(int cellX, int cellY) {
         return cellX>=0 && cellY>=0 && cellX < this.boardSize && cellY < this.boardSize;
+    }
+
+    @Override
+    public void moveKnightTo(int row, int col) {
+        this.checkCellCoordinates(row,col);
+        this.knight.moveTo(new Pair<>(row,col));
     }
 
 
