@@ -2,6 +2,7 @@ package e1;
 
 
 
+import e1.board.BoardInitializerImpl;
 import e1.utils.Pair;
 import e1.utils.RandomPositionGenerator;
 
@@ -20,7 +21,7 @@ public class GUI extends JFrame {
     private final static int SIZE = 5;
     
     public GUI() {
-        this.logics = new LogicsImpl(SIZE, new RandomPositionGenerator());
+        this.logics = new LogicsImpl(SIZE, new BoardInitializerImpl(new RandomPositionGenerator()));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(100*SIZE, 100*SIZE);
 

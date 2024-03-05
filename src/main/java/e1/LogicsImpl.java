@@ -2,6 +2,7 @@ package e1;
 
 import e1.board.Board;
 import e1.board.BoardImpl;
+import e1.board.BoardInitializer;
 import e1.piece.Piece;
 import e1.utils.Pair;
 import e1.utils.PositionGenerator;
@@ -11,28 +12,9 @@ import java.util.Optional;
 public class LogicsImpl implements Logics{
 
     private final Board gameBoard;
-    private final PositionGenerator positionGenerator;
-    public LogicsImpl(int boardSize, PositionGenerator positionGenerator) {
+    public LogicsImpl(int boardSize, BoardInitializer boardInitializer) {
         this.gameBoard = new BoardImpl(boardSize);
-        this.positionGenerator = positionGenerator;
-        this.initBoard();
-
-    }
-
-    private void initBoard(){
-        Pair<Integer,Integer> knightPosition = this.searchEmptyPositionFor(Piece.Pieces.KNIGHT);
-        this.gameBoard.placeKnight(knightPosition);
-        Pair<Integer,Integer> pawnPosition = this.searchEmptyPositionFor(Piece.Pieces.PAWN);
-        this.gameBoard.placePawn(pawnPosition);
-    }
-
-    private Pair<Integer,Integer> searchEmptyPositionFor(Piece.Pieces type){
-        Pair<Integer,Integer> newPosition = this.positionGenerator.generatePosition(gameBoard.size());
-        if(type == Piece.Pieces.KNIGHT) {
-            return this.gameBoard.getPawnPosition().isPresent() && this.gameBoard.getPawnPosition().get().equals(newPosition) ? searchEmptyPositionFor(Piece.Pieces.KNIGHT) : newPosition;
-        }else{
-            return this.gameBoard.getKnightPosition().isPresent() && this.gameBoard.getKnightPosition().get().equals(newPosition) ? searchEmptyPositionFor(Piece.Pieces.KNIGHT) : newPosition;
-        }
+        boardInitializer.initialize(this.gameBoard);
     }
 
     @Override

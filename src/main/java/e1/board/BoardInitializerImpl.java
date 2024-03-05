@@ -11,9 +11,13 @@ public class BoardInitializerImpl implements BoardInitializer {
 
     private PositionGenerator positionGenerator;
     private Board board;
-    @Override
-    public void initialize(Board board, PositionGenerator positionGenerator) {
+
+    public BoardInitializerImpl(PositionGenerator positionGenerator) {
         this.positionGenerator = positionGenerator;
+    }
+
+    @Override
+    public void initialize(Board board) {
         this.board = board;
         Pair<Integer,Integer> knightPosition = this.searchEmptyPositionFor(Piece.Pieces.KNIGHT);
         this.board.placeKnight(knightPosition);

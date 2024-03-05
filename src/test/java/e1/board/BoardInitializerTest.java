@@ -12,9 +12,9 @@ public class BoardInitializerTest {
     private Board board;
     @BeforeEach
     void initBoardInitializer(){
-        BoardInitializer boardInitializer = new BoardInitializerImpl();
+        BoardInitializer boardInitializer = new BoardInitializerImpl(new RandomPositionGenerator());
         this.board = new BoardImpl(BOARD_SIZE);
-        boardInitializer.initialize(this.board, new RandomPositionGenerator());
+        boardInitializer.initialize(this.board);
     }
 
     @Test

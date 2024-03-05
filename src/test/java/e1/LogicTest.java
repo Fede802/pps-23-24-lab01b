@@ -1,6 +1,7 @@
 package e1;
 
 
+import e1.board.BoardInitializerImpl;
 import e1.utils.RandomPositionGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,7 +62,7 @@ public class LogicTest {
     }
     @BeforeEach
     public void initBoard(){
-        this.logics = new LogicsImpl(BOARD_SIZE, new RandomPositionGenerator());
+        this.logics = new LogicsImpl(BOARD_SIZE, new BoardInitializerImpl(new RandomPositionGenerator()));
     }
     @Test
     public void knightAndPawnInitiallyPlacedOnBoard(){
