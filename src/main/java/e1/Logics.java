@@ -1,35 +1,43 @@
 package e1;
 
-public interface Logics{
+public interface Logics {
     
     /**
-     * attempt to move Knight on position row,col, if possible
+     * attempt to move Knight on position row,column, if possible
      * 
      * @param row
-     * @param col
+     * @param column
      * @return whether the pawn has been hit 
      */
-    boolean hit(int row, int col);
+    boolean hit(int row, int column) throws IndexOutOfBoundsException;
     
     /**
      * @param row
-     * @param col
-     * @return whether position row,col has the knight
+     * @param column
+     * @return whether position row,column has the knight
      */
-    boolean hasKnight(int row, int col) throws IllegalArgumentException;
+    boolean hasKnight(int row, int column) throws IndexOutOfBoundsException;
     
     /**
      * @param row
-     * @param col
-     * @return whether position row,col has the pawn
+     * @param column
+     * @return whether position row,column has the pawn
      */
-    boolean hasPawn(int row, int col) throws IllegalArgumentException;
+    boolean hasPawn(int row, int column) throws IndexOutOfBoundsException;
 
+    /**
+     * Attempt to force knight positioning
+     *
+     * @param row
+     * @param column
+     */
+    void setKnightPosition(int row, int column) throws IndexOutOfBoundsException;
 
-
-    void setKnightPosition(int knightXCoordinate, int knightYCoordinate) throws IllegalArgumentException;
-
-    void setPawnPosition(int pawnXCoordinate, int pawnYCoordinate) throws IllegalArgumentException;
-
-
+    /**
+     * Attempt to force pawn positioning
+     *
+     * @param row
+     * @param column
+     */
+    void setPawnPosition(int row, int column) throws IndexOutOfBoundsException;
 }

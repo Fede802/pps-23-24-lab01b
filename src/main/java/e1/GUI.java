@@ -1,20 +1,26 @@
 package e1;
 
+
+
+import e1.utils.Pair;
+import e1.utils.RandomPositionGenerator;
+
 import javax.swing.*;
-import java.util.*;
-import java.util.Map.Entry;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class GUI extends JFrame {
     
     private static final long serialVersionUID = -6218820567019985015L;
-    private final Map<JButton,Pair<Integer,Integer>> buttons = new HashMap<>();
+    private final Map<JButton, Pair<Integer,Integer>> buttons = new HashMap<>();
     private final Logics logics;
     private final static int SIZE = 5;
     
     public GUI() {
-        this.logics = new LogicsImpl(SIZE);
+        this.logics = new LogicsImpl(SIZE, new RandomPositionGenerator());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(100*SIZE, 100*SIZE);
 

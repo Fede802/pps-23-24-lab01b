@@ -1,100 +1,75 @@
 package e1;
 
-import java.util.*;
+import e1.board.Board;
+import e1.board.BoardImpl;
+import e1.piece.Piece;
+import e1.utils.Pair;
+import e1.utils.PositionGenerator;
 
-public class LogicsImpl implements Logics {
-	
+import java.util.Optional;
 
+public class LogicsImpl implements Logics{
 
-	private final GameBoard gameBoard;
-	private final PositionGenerator positionGenerator;
-
-	 
-    public LogicsImpl(int size){
-		System.out.println("ue");
-    	this.gameBoard = new GameBoardImpl(size);
-		this.positionGenerator = new RandomPositionGenerator();
-		Pair<Integer,Integer> knightPosition = this.randomEmptyPosition();
-        this.gameBoard.placeKnight(knightPosition.getX(),knightPosition.getY());
-		Pair<Integer,Integer> pawnPosition = this.randomEmptyPosition();
-		this.gameBoard.placePawn(pawnPosition.getX(),pawnPosition.getY());
-
-
+    private final Board gameBoard;
+    private final PositionGenerator positionGenerator;
+    public LogicsImpl(int boardSize, PositionGenerator positionGenerator) {
+        this.gameBoard = new BoardImpl(boardSize);
+        this.positionGenerator = positionGenerator;
+        this.initBoard();
 
     }
-    
-	private final Pair<Integer,Integer> randomEmptyPosition(){
-    	Pair<Integer,Integer> pos = this.positionGenerator.generatePosition(gameBoard.size());
-    	// the recursive call below prevents clash with an existing pawn
-    	return this.gameBoard.getPawn().isPresent() && this.gameBoard.getPawn().get().equals(pos) ? randomEmptyPosition() : pos;
+
+    private void initBoard(){
+        Pair<Integer,Integer> knightPosition = this.searchEmptyPositionFor(Piece.Pieces.KNIGHT);
+        this.gameBoard.placeKnight(knightPosition);
+        Pair<Integer,Integer> pawnPosition = this.searchEmptyPositionFor(Piece.Pieces.PAWN);
+        this.gameBoard.placePawn(pawnPosition);
     }
-    
-	@Override
-	public boolean hit(int row, int col) {
-		if (row<0 || col<0 || row >= this.gameBoard.size() || col >= this.gameBoard.size()) {
-			throw new IndexOutOfBoundsException();
-		}
-		if(this.gameBoard.getKnight().isPresent()){ //todo throw error
-			// Below a compact way to express allowed moves for the knight
-			int x = row-this.gameBoard.getKnight().get().getX();
-			int y = col-this.gameBoard.getKnight().get().getY();
-			System.out.println(x);
-			System.out.println(y);
-			if (x!=0 && y!=0 && Math.abs(x)+Math.abs(y)==3) {
-				this.gameBoard.placeKnight(row,col);
-				if(this.gameBoard.getKnight().isPresent() && this.gameBoard.getPawn().isPresent()){//todo throw error
-					return this.gameBoard.getPawn().equals(this.gameBoard.getKnight());
-				}
 
-			}
-		}
-		return false;
-	}
+    private Pair<Integer,Integer> searchEmptyPositionFor(Piece.Pieces type){
+        Pair<Integer,Integer> newPosition = this.positionGenerator.generatePosition(gameBoard.size());
+        if(type == Piece.Pieces.KNIGHT) {
+            return this.gameBoard.getPawnPosition().isPresent() && this.gameBoard.getPawnPosition().get().equals(newPosition) ? searchEmptyPositionFor(Piece.Pieces.KNIGHT) : newPosition;
+        }else{
+            return this.gameBoard.getKnightPosition().isPresent() && this.gameBoard.getKnightPosition().get().equals(newPosition) ? searchEmptyPositionFor(Piece.Pieces.KNIGHT) : newPosition;
+        }
+    }
 
-	@Override
-	public boolean hasKnight(int row, int col) {
-//		System.out.println(this.gameBoard.getKnight().get());
-		if (row<0 || col<0 || row >= this.gameBoard.size() || col >= this.gameBoard.size()) {
-			throw new IllegalArgumentException();
-		}
-//		System.out.println(this.gameBoard.getKnight().get());
-		return this.gameBoard.getKnight().get().equals(new Pair<>(row,col));
-	}
-
-	@Override
-	public boolean hasPawn(int row, int col) {
-		if (row<0 || col<0 || row >= this.gameBoard.size() || col >= this.gameBoard.size()) {
-			throw new IllegalArgumentException();
-		}
-
-		return this.gameBoard.getPawn().get().equals(new Pair<>(row,col));
-	}
+    private boolean checkPieceInPosition(Piece.Pieces pieceType, int row, int col) {
+        Optional<Pair<Integer,Integer>> piece = pieceType == Piece.Pieces.KNIGHT?this.gameBoard.getKnightPosition():this.gameBoard.getPawnPosition();
+        return piece.isPresent() && piece.get().equals(new Pair<>(row, col));
+    }
 
 
+    @Override
+    public boolean hit(int row, int column) {
+        this.gameBoard.moveKnightTo(row,column);
+        return this.hasPawn(row, column);
+    }
 
+    @Override
+    public boolean hasKnight(int row, int column) throws IndexOutOfBoundsException {
+        if(!this.gameBoard.isValidCell(row,column)){
+            throw new IndexOutOfBoundsException();
+        }
+        return checkPieceInPosition(Piece.Pieces.KNIGHT,row, column);
+    }
 
-	@Override
-	public void setKnightPosition(int knightXCoordinate, int knightYCoordinate){
-		if (knightXCoordinate<0 || knightYCoordinate<0 || knightXCoordinate >= this.gameBoard.size() || knightYCoordinate >= this.gameBoard.size()) {
-			throw new IllegalArgumentException();
-		}
-		if (this.gameBoard.getPawn().get().equals(new Pair<>(knightXCoordinate,knightYCoordinate))){
-			throw new IllegalStateException();
-		}
-		this.gameBoard.placeKnight(knightXCoordinate,knightYCoordinate);
-//		System.out.println(this.gameBoard.getKnight().get());
-	}
+    @Override
+    public boolean hasPawn(int row, int column) throws IndexOutOfBoundsException {
+        if(!this.gameBoard.isValidCell(row,column)){
+            throw new IndexOutOfBoundsException();
+        }
+        return checkPieceInPosition(Piece.Pieces.PAWN,row, column);
+    }
 
-	@Override
-	public void setPawnPosition(int pawnXCoordinate, int pawnYCoordinate) throws IllegalArgumentException {
-		if (pawnXCoordinate<0 || pawnYCoordinate<0 || pawnXCoordinate >= this.gameBoard.size() || pawnYCoordinate >= this.gameBoard.size()) {
-			throw new IllegalArgumentException();
-		}
-		if (this.gameBoard.getKnight().get().equals(new Pair<>(pawnXCoordinate,pawnYCoordinate))){
-			throw new IllegalStateException();
-		}
-		this.gameBoard.placePawn(pawnXCoordinate,pawnYCoordinate);
-	}
+    @Override
+    public void setKnightPosition(int row, int column) throws IndexOutOfBoundsException{
+        this.gameBoard.placeKnight(new Pair<>(row,column));
+    }
 
-
+    @Override
+    public void setPawnPosition(int row, int column) throws IndexOutOfBoundsException{
+        this.gameBoard.placePawn(new Pair<>(row,column));
+    }
 }
