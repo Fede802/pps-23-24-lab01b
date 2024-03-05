@@ -8,7 +8,7 @@ public interface GameBoard {
 
     Optional<Pair<Integer,Integer>> getPawn();
 
-    void placeKnight(int knightX, int knightY);
+    void placeKnight(int knightX, int knightY) throws IllegalArgumentException;
 
-    void placePawn(int pawnX, int pawnY);
+    void placePawn(int pawnX, int pawnY) throws IllegalArgumentException;
 }

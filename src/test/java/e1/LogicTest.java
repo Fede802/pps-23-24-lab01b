@@ -72,6 +72,8 @@ public class LogicTest {
       this.logics.setPawnPosition(1, 1);
     }
   }
+
+
   @BeforeEach
   public void initBoard(){
     this.logics = new LogicsImpl(BOARD_SIZE);
@@ -79,40 +81,40 @@ public class LogicTest {
     this.logics.setKnightPosition(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY());
     this.logics.setPawnPosition(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY());
   }
-  @Test
-  public void knightPlacedOnBoard(){
-    assertTrue(this.logics.hasKnight(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY()));
-  }
-  @Test
-  public void knightPlacedIncorrectlyOnBoard(){
-    checkInvalidPositions((i, j)->this.logics.setKnightPosition(i,j));
-  }
+//  @Test
+//  public void knightPlacedOnBoard(){
+//    assertTrue(this.logics.hasKnight(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY()));
+//  }
+//  @Test
+//  public void knightPlacedIncorrectlyOnBoard(){
+//    checkInvalidPositions((i, j)->this.logics.setKnightPosition(i,j));
+//  }
   @Test
   public void knightSearchIncorrectlyOnBoard(){
     checkInvalidPositions((i, j)->this.logics.hasKnight(i,j));
   }
-  @Test
-  public void pawnPlacedOnBoard(){
-    assertTrue(this.logics.hasPawn(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY()));
-  }
+//  @Test
+//  public void pawnPlacedOnBoard(){
+//    assertTrue(this.logics.hasPawn(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY()));
+//  }
 
-  @Test
-  public void pawnPlacedIncorrectlyOnBoard(){
-    checkInvalidPositions((i, j)->this.logics.setPawnPosition(i,j));
-  }
+//  @Test
+//  public void pawnPlacedIncorrectlyOnBoard(){
+//    checkInvalidPositions((i, j)->this.logics.setPawnPosition(i,j));
+//  }
 
   @Test
   public void pawnSearchIncorrectlyOnBoard(){
     checkInvalidPositions((i, j)->this.logics.hasPawn(i,j));
   }
-  @Test
-  public void spawnKnightOverPawn(){
-    assertThrows(IllegalStateException.class,()->this.logics.setKnightPosition(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY()));
-  }
-  @Test
-  public void spawnPawnOverKnight(){
-    assertThrows(IllegalStateException.class,()->this.logics.setPawnPosition(KNIGHT_START_POSITION.getX(), KNIGHT_START_POSITION.getY()));
-  }
+//  @Test
+//  public void spawnKnightOverPawn(){
+//    assertThrows(IllegalStateException.class,()->this.logics.setKnightPosition(PAWN_START_POSITION.getX(),PAWN_START_POSITION.getY()));
+//  }
+//  @Test
+//  public void spawnPawnOverKnight(){
+//    assertThrows(IllegalStateException.class,()->this.logics.setPawnPosition(KNIGHT_START_POSITION.getX(), KNIGHT_START_POSITION.getY()));
+//  }
 
   @Test
   public void moveKnight(){

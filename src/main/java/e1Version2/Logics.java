@@ -16,20 +16,13 @@ public interface Logics{
      * @param col
      * @return whether position row,col has the knight
      */
-    boolean hasKnight(int row, int col) throws IllegalArgumentException;
+    boolean hasKnight(int row, int col);
     
     /**
      * @param row
      * @param col
      * @return whether position row,col has the pawn
      */
-    boolean hasPawn(int row, int col) throws IllegalArgumentException;
-
-
-
-    void placeKnight(int knightXCoordinate, int knightYCoordinate) throws IllegalArgumentException;
-
-    void placePawn(int pawnXCoordinate, int pawnYCoordinate) throws IllegalArgumentException;
-
+    boolean hasPawn(int row, int col);
 
 }

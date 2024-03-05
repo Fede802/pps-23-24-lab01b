@@ -38,6 +38,8 @@ public class LogicsImpl implements Logics {
 			// Below a compact way to express allowed moves for the knight
 			int x = row-this.gameBoard.getKnight().get().getX();
 			int y = col-this.gameBoard.getKnight().get().getY();
+			System.out.println(x);
+			System.out.println(y);
 			if (x!=0 && y!=0 && Math.abs(x)+Math.abs(y)==3) {
 				this.gameBoard.placeKnight(row,col);
 				if(this.gameBoard.getKnight().isPresent() && this.gameBoard.getPawn().isPresent()){//todo throw error
@@ -51,11 +53,11 @@ public class LogicsImpl implements Logics {
 
 	@Override
 	public boolean hasKnight(int row, int col) {
-		System.out.println(this.gameBoard.getKnight().get());
+//		System.out.println(this.gameBoard.getKnight().get());
 		if (row<0 || col<0 || row >= this.gameBoard.size() || col >= this.gameBoard.size()) {
 			throw new IllegalArgumentException();
 		}
-		System.out.println(this.gameBoard.getKnight().get());
+//		System.out.println(this.gameBoard.getKnight().get());
 		return this.gameBoard.getKnight().get().equals(new Pair<>(row,col));
 	}
 
@@ -80,7 +82,7 @@ public class LogicsImpl implements Logics {
 			throw new IllegalStateException();
 		}
 		this.gameBoard.placeKnight(knightXCoordinate,knightYCoordinate);
-		System.out.println(this.gameBoard.getKnight().get());
+//		System.out.println(this.gameBoard.getKnight().get());
 	}
 
 	@Override
