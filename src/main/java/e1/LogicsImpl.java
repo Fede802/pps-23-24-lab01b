@@ -3,11 +3,8 @@ package e1;
 import e1.board.Board;
 import e1.board.BoardImpl;
 import e1.board.BoardInitializer;
-import e1.piece.Piece;
 import e1.utils.Pair;
-import e1.utils.PositionGenerator;
 
-import java.util.Optional;
 
 public class LogicsImpl implements Logics{
 

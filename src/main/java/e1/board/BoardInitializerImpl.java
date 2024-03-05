@@ -9,7 +9,7 @@ import e1.utils.RandomPositionGenerator;
 
 public class BoardInitializerImpl implements BoardInitializer {
 
-    private PositionGenerator positionGenerator;
+    private final PositionGenerator positionGenerator;
     private Board board;
 
     public BoardInitializerImpl(PositionGenerator positionGenerator) {
