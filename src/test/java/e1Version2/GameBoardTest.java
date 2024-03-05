@@ -14,7 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public abstract class GameBoardTest {
 
     protected final static int BOARD_SIZE = 5;
-    private final static List<Pair<Integer,Integer>> INVALID_POSITIONS = Arrays.asList(
+
+    protected final static e1.Pair<Integer,Integer> KNIGHT_START_POSITION = new e1.Pair<>(1,1);
+    protected final static e1.Pair<Integer,Integer> PAWN_START_POSITION = new e1.Pair<>(0,0);
+    protected final static List<Pair<Integer,Integer>> INVALID_POSITIONS = Arrays.asList(
             new Pair<>(-1,0),
             new Pair<>(0,-1),
             new Pair<>(BOARD_SIZE,0),
@@ -51,8 +54,8 @@ public abstract class GameBoardTest {
 
     @Test
     void placeKnightOnBoard(){
-        int knightX = 0;
-        int knightY = 0;
+        int knightX = KNIGHT_START_POSITION.getX();
+        int knightY = KNIGHT_START_POSITION.getY();
         this.gameBoard.placeKnight(knightX,knightY);
         assertEquals(new Pair<>(knightX,knightY),this.gameBoard.getKnight().orElse(INVALID_POSITIONS.get(0)));
     }
@@ -63,8 +66,8 @@ public abstract class GameBoardTest {
 
     @Test
     void placePawnOnBoard(){
-        int pawnX = 0;
-        int pawnY = 0;
+        int pawnX = PAWN_START_POSITION.getX();
+        int pawnY = PAWN_START_POSITION.getY();
         this.gameBoard.placePawn(pawnX,pawnY);
         assertEquals(new Pair<>(pawnX,pawnY),this.gameBoard.getPawn().orElse(INVALID_POSITIONS.get(0)));
     }
