@@ -40,9 +40,9 @@ public class LogicTest {
   }
   private void executeValidMoves(int currentKnightX, int currentKnightY) {
     VALID_MOVES.stream().filter(
-            (move) -> !this.isNotValidBoardPosition(currentKnightX+move.getX(), currentKnightY+move.getY())
+            (move) -> !this.isNotValidBoardPosition(currentKnightX + move.getX(), currentKnightY + move.getY())
     ).forEach(
-            (move)-> this.logics.hit(currentKnightX+move.getX(), currentKnightY+move.getY())
+            (move)-> this.logics.hit(currentKnightX + move.getX(), currentKnightY + move.getY())
     );
   }
   private void checkInvalidMoves(int currentKnightX, int currentKnightY) {

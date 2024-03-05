@@ -11,9 +11,9 @@ import java.util.function.BiConsumer;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class GameBoardTest {
+public abstract class GameBoardTest {
 
-    private final static int BOARD_SIZE = 5;
+    protected final static int BOARD_SIZE = 5;
     private final static List<Pair<Integer,Integer>> INVALID_POSITIONS = Arrays.asList(
             new Pair<>(-1,0),
             new Pair<>(0,-1),
@@ -31,8 +31,10 @@ public class GameBoardTest {
 
     @BeforeEach
     public void init(){
-        gameBoard = new BaseGameBoard(BOARD_SIZE);
+        gameBoard = this.createGameBoard();
     }
+
+    protected abstract GameBoard createGameBoard();
 
     @Test
     void isBoardSizeSetCorrectly(){
