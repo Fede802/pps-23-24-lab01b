@@ -1,8 +1,8 @@
 package e1Version3;
 
-import e1.Logics;
-import e1.LogicsImpl;
-import e1.Pair;
+
+
+import e1Version3.utils.Pair;
 
 import javax.swing.*;
 import java.awt.*;

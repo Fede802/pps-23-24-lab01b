@@ -1,6 +1,9 @@
 package e1Version3;
 
 public class LogicsImpl implements Logics{
+    public LogicsImpl(int size) {
+    }
+
     @Override
     public boolean hit(int row, int column) {
         return false;
