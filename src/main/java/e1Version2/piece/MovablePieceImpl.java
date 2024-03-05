@@ -36,12 +36,20 @@ public class MovablePieceImpl implements MovablePiece {
     }
 
     @Override
-    public void moveTo(Pair<Integer, Integer> destination) {
+    public boolean canMoveTo(Pair<Integer, Integer> destination) {
         if(this.getPiece().isEmpty() || !this.hasMovement())
             throw new IllegalStateException();
+        System.out.println("MovablePieceImpl destX"+destination.getX());
+        System.out.println("MovablePieceImpl destY"+destination.getY());
+        System.out.println("MovablePieceImpl currKniX"+this.getPiece().get().getX());
+        System.out.println("MovablePieceImpl currKniY"+this.getPiece().get().getY());
         int movementX = destination.getX() - this.getPiece().get().getX();
         int movementY = destination.getY() - this.getPiece().get().getY();
-        movement.makeMovement(this,new Pair<>(movementX,movementY));
+        System.out.println("MovablePieceImpl"+movementX);
+        System.out.println("MovablePieceImpl"+movementY);
+        return movement.isValidMovement(new Pair<>(movementX,movementY));
+
+
     }
 
 

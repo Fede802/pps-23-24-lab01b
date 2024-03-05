@@ -51,10 +51,28 @@ public class LogicsImpl implements Logics{
         return checkPieceInPosition(Piece.Pieces.PAWN,row, col);
     }
 
+    @Override
+    public void setKnightPosition(int i, int j) {
+        this.gameBoard.getKnight().setPiece(i,j);
+    }
+
+    @Override
+    public void setPawnPosition(int i, int j) {
+        this.gameBoard.getPawn().setPiece(i,j);
+    }
+
 
     @Override
     public boolean hit(int row, int col) {
-//        this.gameBoard.getKnight().
+
+        System.out.println("LogicImpl destX"+row);
+        System.out.println("LogicImpl destY"+col);
+        if(this.gameBoard.getKnight().canMoveTo(new Pair<>(row,col))) {
+
+            this.gameBoard.placeKnight(row, col);
+            return this.hasPawn(row, col);
+        }
+        return false;
 
 //        if (!gameBoard.isValidCell(row,col)) {
 //            throw new IndexOutOfBoundsException();
@@ -75,7 +93,7 @@ public class LogicsImpl implements Logics{
 //                return this.gameBoard.getPawn().equals(this.gameBoard.getKnight());
 //            }
 //        }
-        return false;
+//        return false;
     }
 
 

@@ -25,4 +25,8 @@ public interface Logics{
      */
     boolean hasPawn(int row, int col);
 
+    //todo remove
+    void setKnightPosition(int i, int j);
+
+    void setPawnPosition(int newPawnXCoordinate, int newPawnYCoordinate);
 }
