@@ -1,5 +1,6 @@
 package e1Version2.board;
 
+import e1Version2.piece.MovablePiece;
 import e1Version2.utils.Pair;
 
 import java.util.Optional;
@@ -7,6 +8,11 @@ import java.util.Optional;
 public class CheckedGameBoard implements GameBoard{
 
     private final GameBoard gameBoard;
+
+    @Override
+    public boolean isValidCell(int cellX, int cellY) {
+        return gameBoard.isValidCell(cellX, cellY);
+    }
 
     public CheckedGameBoard(int boardSize) {
         gameBoard = new BaseGameBoard(boardSize);
@@ -23,19 +29,19 @@ public class CheckedGameBoard implements GameBoard{
     }
 
     @Override
-    public Optional<Pair<Integer, Integer>> getKnight() {
+    public MovablePiece getKnight() {
         return gameBoard.getKnight();
     }
 
     @Override
-    public Optional<Pair<Integer, Integer>> getPawn() {
+    public MovablePiece getPawn() {
         return gameBoard.getPawn();
     }
 
     @Override
     public void placeKnight(int knightX, int knightY) {
-        if(gameBoard.getPawn().isPresent()) {
-            checkPiecesOverlap(gameBoard.getPawn().get(), new Pair<>(knightX, knightY));
+        if(gameBoard.getPawn().getPiece().isPresent()) {
+            checkPiecesOverlap(gameBoard.getPawn().getPiece().get(), new Pair<>(knightX, knightY));
         }
         gameBoard.placeKnight(knightX, knightY);
     }
@@ -44,8 +50,8 @@ public class CheckedGameBoard implements GameBoard{
 
     @Override
     public void placePawn(int pawnX, int pawnY) {
-        if(gameBoard.getKnight().isPresent()) {
-            checkPiecesOverlap(gameBoard.getKnight().get(), new Pair<>(pawnX, pawnY));
+        if(gameBoard.getKnight().getPiece().isPresent()) {
+            checkPiecesOverlap(gameBoard.getKnight().getPiece().get(), new Pair<>(pawnX, pawnY));
         }
         gameBoard.placePawn(pawnX, pawnY);
     }

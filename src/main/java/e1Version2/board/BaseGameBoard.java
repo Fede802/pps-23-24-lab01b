@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public class BaseGameBoard implements GameBoard {
     private final int boardSize;
-    private final Piece knight;
-    private final Piece pawn;
+    private final MovablePiece knight;
+    private final MovablePiece pawn;
 
     public BaseGameBoard(int boardSize) {
         this.boardSize = boardSize;
@@ -17,7 +17,7 @@ public class BaseGameBoard implements GameBoard {
         this.pawn = pieceFactory.createPawn();
     }
     private void checkCellCoordinates(int cellX, int cellY) {
-        if (cellX<0 || cellY<0 || cellX >= this.boardSize || cellY >= this.boardSize){
+        if (!isValidCell(cellX,cellY)){
             throw new IllegalArgumentException();
         }
     }
@@ -28,12 +28,12 @@ public class BaseGameBoard implements GameBoard {
     }
 
     @Override
-    public Optional<Pair<Integer, Integer>> getKnight() {
-        return this.knight.getPiece();
+    public MovablePiece getKnight() {
+        return this.knight;
     }
     @Override
-    public Optional<Pair<Integer, Integer>> getPawn() {
-        return this.pawn.getPiece();
+    public MovablePiece getPawn() {
+        return this.pawn;
     }
 
     @Override
@@ -46,6 +46,11 @@ public class BaseGameBoard implements GameBoard {
     public void placePawn(int pawnX, int pawnY) {
         this.checkCellCoordinates(pawnX,pawnY);
         this.pawn.setPiece(pawnX,pawnY);
+    }
+
+    @Override
+    public boolean isValidCell(int cellX, int cellY) {
+        return cellX>=0 && cellY>=0 && cellX < this.boardSize && cellY < this.boardSize;
     }
 
 

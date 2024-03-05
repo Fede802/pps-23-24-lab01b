@@ -49,8 +49,8 @@ public abstract class GameBoardTest {
     @Test
     void isKnightAndPawnInitiallyNotOnBoard(){
         assertAll(
-                () -> assertFalse(this.gameBoard.getKnight().isPresent()),
-                () -> assertFalse(this.gameBoard.getPawn().isPresent())
+                () -> assertFalse(this.gameBoard.getKnight().getPiece().isPresent()),
+                () -> assertFalse(this.gameBoard.getPawn().getPiece().isPresent())
         );
     }
 
@@ -59,7 +59,7 @@ public abstract class GameBoardTest {
         int knightX = KNIGHT_START_POSITION.getX();
         int knightY = KNIGHT_START_POSITION.getY();
         this.gameBoard.placeKnight(knightX,knightY);
-        assertEquals(new Pair<>(knightX,knightY),this.gameBoard.getKnight().orElse(INVALID_POSITIONS.get(0)));
+        assertEquals(new Pair<>(knightX,knightY),this.gameBoard.getKnight().getPiece().orElse(INVALID_POSITIONS.get(0)));
     }
     @Test
     void wrongPlaceKnightOnBoard(){
@@ -71,11 +71,20 @@ public abstract class GameBoardTest {
         int pawnX = PAWN_START_POSITION.getX();
         int pawnY = PAWN_START_POSITION.getY();
         this.gameBoard.placePawn(pawnX,pawnY);
-        assertEquals(new Pair<>(pawnX,pawnY),this.gameBoard.getPawn().orElse(INVALID_POSITIONS.get(0)));
+        assertEquals(new Pair<>(pawnX,pawnY),this.gameBoard.getPawn().getPiece().orElse(INVALID_POSITIONS.get(0)));
     }
     @Test
     void wrongPlacePawnOnBoard(){
         this.checkInvalidPositions((i,j)->this.gameBoard.placePawn(i,j));
+    }
+
+    @Test
+    void checkBoardPositions(){
+        assertAll(
+                () -> assertTrue(this.gameBoard.isValidCell(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY())),
+                () -> assertFalse(this.gameBoard.isValidCell(INVALID_POSITIONS.get(0).getX(),INVALID_POSITIONS.get(0).getY()))
+
+        );
     }
 
 
