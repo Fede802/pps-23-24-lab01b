@@ -9,21 +9,21 @@ public interface Logics {
      * @param column
      * @return whether the pawn has been hit 
      */
-    boolean hit(int row, int column);
+    boolean hit(int row, int column) throws IndexOutOfBoundsException;
     
     /**
      * @param row
      * @param column
      * @return whether position row,column has the knight
      */
-    boolean hasKnight(int row, int column);
+    boolean hasKnight(int row, int column) throws IndexOutOfBoundsException;
     
     /**
      * @param row
      * @param column
      * @return whether position row,column has the pawn
      */
-    boolean hasPawn(int row, int column);
+    boolean hasPawn(int row, int column) throws IndexOutOfBoundsException;
 
     /**
      * Attempt to force knight positioning
@@ -31,7 +31,7 @@ public interface Logics {
      * @param row
      * @param column
      */
-    void setKnightPosition(int row, int column);
+    void setKnightPosition(int row, int column) throws IndexOutOfBoundsException;
 
     /**
      * Attempt to force pawn positioning
@@ -39,5 +39,5 @@ public interface Logics {
      * @param row
      * @param column
      */
-    void setPawnPosition(int row, int column);
+    void setPawnPosition(int row, int column) throws IndexOutOfBoundsException;
 }

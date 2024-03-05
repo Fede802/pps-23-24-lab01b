@@ -3,6 +3,7 @@ package e1Version3;
 
 
 import e1Version3.utils.Pair;
+import e1Version3.utils.RandomPositionGenerator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ public class GUI extends JFrame {
     private final static int SIZE = 5;
     
     public GUI() {
-        this.logics = new LogicsImpl(SIZE);
+        this.logics = new LogicsImpl(SIZE, new RandomPositionGenerator());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(100*SIZE, 100*SIZE);
 

@@ -70,4 +70,13 @@ public class BoardTest {
     void wrongPlacePawnOnBoard(){
         this.checkInvalidPositions((i,j)->this.board.placePawn(new Pair<>(i,j)));
     }
+
+    @Test
+    void checkBoardPositions(){
+        assertAll(
+                () -> assertTrue(this.board.isValidCell(KNIGHT_START_POSITION.getX(),KNIGHT_START_POSITION.getY())),
+                () -> assertFalse(this.board.isValidCell(INVALID_POSITIONS.get(0).getX(),INVALID_POSITIONS.get(0).getY()))
+
+        );
+    }
 }

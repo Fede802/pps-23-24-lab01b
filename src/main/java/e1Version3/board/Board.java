@@ -14,4 +14,8 @@ public interface Board {
     void placeKnight(Pair<Integer,Integer> knightCoordinates) throws IndexOutOfBoundsException;
 
     void placePawn(Pair<Integer, Integer> pawnCoordinates) throws IndexOutOfBoundsException;
+
+    boolean isValidCell(int cellX, int cellY);
+
+    void moveKnightTo(int row, int column);
 }

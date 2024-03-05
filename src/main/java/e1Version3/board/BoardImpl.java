@@ -28,11 +28,6 @@ public class BoardImpl implements Board {
         }
     }
 
-
-    private boolean isValidCell(int cellX, int cellY) {
-        return cellX>=0 && cellY>=0 && cellX < this.boardSize && cellY < this.boardSize;
-    }
-
     @Override
     public int size() {
         return boardSize;
@@ -58,5 +53,17 @@ public class BoardImpl implements Board {
     public void placePawn(Pair<Integer, Integer> pawnCoordinates) throws IndexOutOfBoundsException {
         this.checkCellCoordinates(pawnCoordinates);
         this.pawn.setPieceCoordinate(pawnCoordinates);
+    }
+
+    @Override
+    public boolean isValidCell(int cellX, int cellY) {
+        return cellX>=0 && cellY>=0 && cellX < this.boardSize && cellY < this.boardSize;
+    }
+
+    //todo missing test
+    @Override
+    public void moveKnightTo(int row, int column) {
+        this.checkCellCoordinates(new Pair<>(row,column));
+        this.knight.moveTo(new Pair<>(row,column));
     }
 }
