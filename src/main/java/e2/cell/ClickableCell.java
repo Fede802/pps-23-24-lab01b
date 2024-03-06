@@ -1,9 +1,11 @@
-package e2;
+package e2.cell;
 
-public class GameCell implements Cell, Clickable {
+import e2.Pair;
+
+public class ClickableCell implements Cell, Clickable {
     private final Cell cell;
     private boolean isSelected;
-    public GameCell(int cellX, int cellY) {
+    public ClickableCell(int cellX, int cellY) {
         this.cell = new CellImpl(cellX,cellY);
     }
     @Override

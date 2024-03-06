@@ -1,4 +1,6 @@
-package e2;
+package e2.cell;
+
+import e2.Pair;
 
 public class CellImpl implements Cell {
     Pair<Integer, Integer> cellPosition;

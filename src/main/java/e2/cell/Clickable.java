@@ -1,4 +1,4 @@
-package e2;
+package e2.cell;
 
 public interface Clickable {
     boolean isSelected();

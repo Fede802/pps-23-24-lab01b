@@ -1,5 +1,6 @@
 package e2;
 
+import e2.cell.ClickableCell;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ public class GridInitializerTest {
 
     private final static int GRID_SIZE = 7;
     private GridInitializer gridInitializer;
-    private List<List<GameCell>> grid;
+    private List<List<ClickableCell>> grid;
     @BeforeEach
     void initGridInitializer(){
         this.grid = new ArrayList<>();

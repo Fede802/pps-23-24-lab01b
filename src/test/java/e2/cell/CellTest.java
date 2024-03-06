@@ -1,5 +1,8 @@
-package e2;
+package e2.cell;
 
+import e2.Pair;
+import e2.cell.Cell;
+import e2.cell.CellImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

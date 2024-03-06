@@ -1,4 +1,4 @@
-package e2;
+package e2.cell;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,9 +12,9 @@ public class ClickableCellTest {
     private Clickable clickableCell;
     @BeforeEach
     void initClickableTest(){
-        int cellX = 7;
-        int cellY = 7;
-        this.clickableCell = new GameCell(cellX,cellY);
+        int cellX = 5;
+        int cellY = 5;
+        this.clickableCell = new ClickableCell(cellX,cellY);
     }
 
     @Test
