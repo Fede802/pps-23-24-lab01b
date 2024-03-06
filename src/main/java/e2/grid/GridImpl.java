@@ -1,6 +1,6 @@
-package e2;
+package e2.grid;
 
-import e2.cell.ClickableCell;
+import e2.cell.GameCell;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 public class GridImpl implements Grid {
 
     private final int boardSize;
-    private List<List<ClickableCell>> grid = new ArrayList<>();
+    private List<List<GameCell>> grid = new ArrayList<>();
     public GridImpl(int boardSize) {
         this.boardSize = boardSize;
         new EmptyGridinitializer().initializeGrid(this.grid,this.boardSize);

@@ -1,4 +1,4 @@
-package e2;
+package e2.grid;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
