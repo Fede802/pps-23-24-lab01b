@@ -1,5 +1,11 @@
 package e2.grid;
 
+import e2.grid.initializer.GameInitializer;
+import e2.grid.initializer.GameInitializerImpl;
+import e2.grid.initializer.GridInitializer;
+import e2.grid.minePlacer.DumbMinePlacer;
+import e2.grid.minePlacer.MinePlacer;
+import e2.grid.minePlacer.RandomMinePlacer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -47,5 +53,34 @@ public class GridTest {
     }
 
     //todo test for multiple select/deselect cycles
+    @Test
+    void setInitializer(){
+        GameInitializer gameInitializer = new GameInitializerImpl();
+        this.grid.setGameInitializer(gameInitializer);
+        assertEquals(gameInitializer, this.grid.getGameInitializer());
+    }
+
+    /*todo
+    @Test
+    void changeInitializer(){
+        fail();
+    }
+    */
+
+    @Test
+    void createWithInitializer(){
+        GameInitializer gameInitializer = new GameInitializerImpl();
+        this.grid = new GridImpl(BOARD_SIZE,gameInitializer,10);
+        assertEquals(gameInitializer, this.grid.getGameInitializer());
+    }
+
+    //todo get and set initializer could be removed
+
+
+    @Test
+    void checkMinePresence(){
+        //setAndgetMIne
+        fail();
+    }
 
 }

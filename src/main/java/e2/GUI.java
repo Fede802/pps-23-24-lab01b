@@ -16,8 +16,8 @@ public class GUI extends JFrame {
     private final Map<JButton,Pair<Integer,Integer>> buttons = new HashMap<>();
     private final Logics logics;
     
-    public GUI(int size) {
-        this.logics = new LogicsImpl(size);
+    public GUI(int size, int minesToPlace) {
+        this.logics = new LogicsImpl(size,minesToPlace);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(100*size, 100*size);
         

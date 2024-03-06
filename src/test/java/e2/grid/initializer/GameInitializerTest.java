@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GameInitializerTest extends GridInitializerTest{
 
-
+    //todo beacuse extends gridInitialize to game initializer maybe refactor hierachies of these testsand not
 
     @Override
     protected GridInitializer createGridInitializer() {
