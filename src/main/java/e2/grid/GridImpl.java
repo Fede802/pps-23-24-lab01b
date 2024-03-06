@@ -11,7 +11,7 @@ public class GridImpl implements Grid {
     private List<List<GameCell>> grid = new ArrayList<>();
     public GridImpl(int boardSize) {
         this.boardSize = boardSize;
-        new EmptyGridinitializer().initializeGrid(this.grid,this.boardSize);
+        new EmptyGridInitializer().initializeGrid(this.grid,this.boardSize);
     }
 
     @Override

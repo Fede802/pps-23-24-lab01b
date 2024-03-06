@@ -5,7 +5,7 @@ import e2.cell.GameCell;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmptyGridinitializer implements GridInitializer {
+public class EmptyGridInitializer implements GridInitializer {
     @Override
     public void initializeGrid(List<List<GameCell>> grid, int gridSize) {
         for (int i = 0; i < gridSize; i++) {

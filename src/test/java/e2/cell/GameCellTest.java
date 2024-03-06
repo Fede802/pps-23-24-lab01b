@@ -10,6 +10,7 @@ public class GameCellTest {
     private final static int CELL_X = 5;
     private final static int CELL_Y = 5;
     private GameEntity gameEntity;
+
     @BeforeEach
     void initGameCell(){
 
