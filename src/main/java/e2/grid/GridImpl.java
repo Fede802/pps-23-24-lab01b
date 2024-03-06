@@ -4,6 +4,7 @@ import e2.cell.GameCell;
 import e2.cell.GameEntity;
 import e2.grid.initializer.GameInitializer;
 import e2.grid.initializer.GameInitializerImpl;
+import e2.grid.minePlacer.DumbMinePlacer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class GridImpl implements Grid {
     private GameInitializer gameInitializer;
     private final List<List<GameCell>> grid = new ArrayList<>();
     public GridImpl(int boardSize) {
-        this(boardSize, new GameInitializerImpl(),0);
+        this(boardSize, new GameInitializerImpl(new DumbMinePlacer()),0);
     }
 
     public GridImpl(int boardSize, GameInitializer gameInitializer, int minesToPlace) {
