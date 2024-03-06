@@ -1,6 +1,7 @@
 package e2.grid;
 
 import e2.cell.GameCell;
+import e2.grid.initializer.EmptyGridInitializer;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package e2.grid;
+package e2.grid.initializer;
 
 import e2.cell.GameCell;
 

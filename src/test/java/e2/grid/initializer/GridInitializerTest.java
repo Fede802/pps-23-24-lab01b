@@ -1,6 +1,7 @@
-package e2.grid;
+package e2.grid.initializer;
 
 import e2.cell.GameCell;
+import e2.grid.initializer.GridInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public abstract class GridInitializerTest {
 
-    private final static int GRID_SIZE = 7;
-    private GridInitializer gridInitializer;
-    private List<List<GameCell>> grid;
+    protected final static int GRID_SIZE = 7;
+    protected GridInitializer gridInitializer;
+    protected List<List<GameCell>> grid;
     @BeforeEach
     void initGridInitializer(){
         this.grid = new ArrayList<>();
