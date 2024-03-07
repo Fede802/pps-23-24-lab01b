@@ -27,7 +27,7 @@ public class GridFactoryTest {
         int emptyEntityFound = 0;
         for (int i = 0; i < grid.getSize(); i++) {
             for (int j = 0; j < grid.getSize(); j++) {
-                if(grid.getCell(i,j).getEntityType() == EntityType.EMPTY) {
+                if(grid.getCellAt(i,j).getEntityType() == EntityType.EMPTY) {
                     emptyEntityFound = emptyEntityFound + 1;
                 }
             }
@@ -42,7 +42,7 @@ public class GridFactoryTest {
         int mineFound = 0;
         for (int i = 0; i < grid.getSize(); i++) {
             for (int j = 0; j < grid.getSize(); j++) {
-                if(grid.getCell(i,j).getEntityType() == EntityType.MINE) {
+                if(grid.getCellAt(i,j).getEntityType() == EntityType.MINE) {
                     mineFound = mineFound + 1;
                 }
             }
@@ -67,7 +67,7 @@ public class GridFactoryTest {
         Set<Pair<Integer,Integer>> mineFound = new HashSet<>();
         for (int i = 0; i < grid.getSize(); i++) {
             for (int j = 0; j < grid.getSize(); j++) {
-                if(grid.getCell(i,j).getEntityType() == EntityType.MINE) {
+                if(grid.getCellAt(i,j).getEntityType() == EntityType.MINE) {
                     mineFound.add(new Pair<>(i,j));
                 }
             }

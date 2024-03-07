@@ -49,7 +49,7 @@ public class GridImpl implements Grid {
     }
 
     @Override
-    public GameCell getCell(int cellX, int cellY) throws IndexOutOfBoundsException {
+    public GameCell getCellAt(int cellX, int cellY) throws IndexOutOfBoundsException {
         Pair<Integer,Integer> cellPosition = new Pair<>(cellX,cellY);
         return this.grid.stream()
                 .filter((cell)->(cell.getCellPosition().equals(cellPosition)))
@@ -60,7 +60,7 @@ public class GridImpl implements Grid {
 
     @Override
     public Set<GameCell> getNeighbours(int cellX, int cellY) {
-        Pair<Integer, Integer> cellPosition = this.getCell(cellX,cellY).getCellPosition();
+        Pair<Integer, Integer> cellPosition = this.getCellAt(cellX,cellY).getCellPosition();
         return this.grid.stream()
                 .filter((cell)->(isNeighbours(cell.getCellPosition(),cellPosition)))
                 .collect(Collectors.toSet());

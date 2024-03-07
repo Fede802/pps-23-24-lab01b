@@ -8,7 +8,7 @@ public interface Grid {
 
     int getSize();
 
-    GameCell getCell(int cellX, int cellY) throws IndexOutOfBoundsException;
+    GameCell getCellAt(int cellX, int cellY) throws IndexOutOfBoundsException;
 
     Set<GameCell> getNeighbours(int cellX, int cellY);
 

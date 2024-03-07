@@ -44,7 +44,7 @@ public class LogicsTest{
         this.logics = new LogicsImpl(GRID_SIZE,presetMinePosition);
         Pair<Integer, Integer> cell = new Pair<>(0,0);
         assertAll(
-                () -> assertFalse(this.logics.isMineCell(cell)),
+                () -> assertFalse(this.logics.getCellStatus(cell).isMine()),
                 () -> assertEquals(ClickResult.EMPTY,this.logics.clickCell(cell))
         );
     }
@@ -54,7 +54,7 @@ public class LogicsTest{
         Pair<Integer, Integer> cell = new Pair<>(0,0);
         this.logics = new LogicsImpl(GRID_SIZE,GRID_SIZE*GRID_SIZE);
         assertAll(
-                () -> assertTrue(this.logics.isMineCell(cell)),
+                () -> assertTrue(this.logics.getCellStatus(cell).isMine()),
                 () -> assertEquals(ClickResult.LOSE,this.logics.clickCell(cell))
         );
 
@@ -63,7 +63,7 @@ public class LogicsTest{
     @Test
     void clickActionsOnWrongCell(){
         this.wrongCellTester((p) -> this.logics.clickCell(p));
-        this.wrongCellTester((p) -> this.logics.isCellClicked(p));
+        this.wrongCellTester((p) -> this.logics.getCellStatus(p).isClicked());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class LogicsTest{
         for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
                 if(!(i == 0 && j == 0)) {
-                    assertFalse(this.logics.isCellFlagged(new Pair<>(i, j)));
+                    assertFalse(this.logics.getCellStatus(new Pair<>(i, j)).isFlagged());
                 }
             }
         }
@@ -97,7 +97,7 @@ public class LogicsTest{
     void flagCell(){
         Pair<Integer, Integer> cell = new Pair<>(0,0);
         this.logics.toggleFlag(cell);
-        assertTrue(this.logics.isCellFlagged(cell));
+        assertTrue(this.logics.getCellStatus(cell).isFlagged());
     }
 
     @Test
@@ -105,13 +105,13 @@ public class LogicsTest{
         Pair<Integer, Integer> cell = new Pair<>(0,0);
         this.logics.toggleFlag(cell);
         this.logics.toggleFlag(cell);
-        assertFalse(this.logics.isCellFlagged(cell));
+        assertFalse(this.logics.getCellStatus(cell).isFlagged());
     }
 
     @Test
     void flagActionsOnWrongCell(){
         this.wrongCellTester((p) -> this.logics.toggleFlag(p));
-        this.wrongCellTester((p) -> this.logics.isCellClicked(p));
+        this.wrongCellTester((p) -> this.logics.getCellStatus(p).isClicked());
     }
 
     @Test
@@ -119,7 +119,7 @@ public class LogicsTest{
         for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
                 if(!(i == 0 && j == 0)) {
-                    assertFalse(this.logics.isCellClicked(new Pair<>(i, j)));
+                    assertFalse(this.logics.getCellStatus(new Pair<>(i, j)).isClicked());
                 }
             }
         }
@@ -129,7 +129,7 @@ public class LogicsTest{
     void clickCell(){
         Pair<Integer, Integer> cell = new Pair<>(0,0);
         this.logics.clickCell(cell);
-        assertTrue(this.logics.isCellClicked(cell));
+        assertTrue(this.logics.getCellStatus(cell).isClicked());
     }
 
     @Test
@@ -143,17 +143,17 @@ public class LogicsTest{
     void minesAroundCheckerWorksCorrectlyInEmptyGrid(){
         this.logics = new LogicsImpl(GRID_SIZE,0);
         assertAll(
-                () -> assertEquals(0, this.logics.numberOfMinesAround(new Pair<>(0,0))),
-                () -> assertEquals(0, this.logics.numberOfMinesAround(new Pair<>(GRID_SIZE-1,0))),
-                () -> assertEquals(0, this.logics.numberOfMinesAround(new Pair<>(0,GRID_SIZE-1))),
-                () -> assertEquals(0, this.logics.numberOfMinesAround(new Pair<>(GRID_SIZE-1,GRID_SIZE-1))),
+                () -> assertEquals(0, this.logics.getCellStatus(new Pair<>(0,0)).numberOfMinesAround()),
+                () -> assertEquals(0, this.logics.getCellStatus(new Pair<>(GRID_SIZE-1,0)).numberOfMinesAround()),
+                () -> assertEquals(0, this.logics.getCellStatus(new Pair<>(0,GRID_SIZE-1)).numberOfMinesAround()),
+                () -> assertEquals(0, this.logics.getCellStatus(new Pair<>(GRID_SIZE-1,GRID_SIZE-1)).numberOfMinesAround()),
 
-                () -> assertEquals(0, this.logics.numberOfMinesAround(new Pair<>(0,1))),
-                () -> assertEquals(0, this.logics.numberOfMinesAround(new Pair<>(1,0))),
-                () -> assertEquals(0, this.logics.numberOfMinesAround(new Pair<>(GRID_SIZE-1,GRID_SIZE-2))),
-                () -> assertEquals(0, this.logics.numberOfMinesAround(new Pair<>(GRID_SIZE-2,GRID_SIZE-1))),
+                () -> assertEquals(0, this.logics.getCellStatus(new Pair<>(0,1)).numberOfMinesAround()),
+                () -> assertEquals(0, this.logics.getCellStatus(new Pair<>(1,0)).numberOfMinesAround()),
+                () -> assertEquals(0, this.logics.getCellStatus(new Pair<>(GRID_SIZE-1,GRID_SIZE-2)).numberOfMinesAround()),
+                () -> assertEquals(0, this.logics.getCellStatus(new Pair<>(GRID_SIZE-2,GRID_SIZE-1)).numberOfMinesAround()),
 
-                () -> assertEquals(0,this.logics.numberOfMinesAround(new Pair<>(1,1)))
+                () -> assertEquals(0,this.logics.getCellStatus(new Pair<>(1,1)).numberOfMinesAround())
         );
     }
 
@@ -161,17 +161,17 @@ public class LogicsTest{
     void minesAroundCheckerWorksCorrectlyInFullGrid(){
         this.logics = new LogicsImpl(GRID_SIZE,GRID_SIZE*GRID_SIZE);
         assertAll(
-                () -> assertEquals(3, this.logics.numberOfMinesAround(new Pair<>(0,0))),
-                () -> assertEquals(3, this.logics.numberOfMinesAround(new Pair<>(GRID_SIZE-1,0))),
-                () -> assertEquals(3, this.logics.numberOfMinesAround(new Pair<>(0,GRID_SIZE-1))),
-                () -> assertEquals(3, this.logics.numberOfMinesAround(new Pair<>(GRID_SIZE-1,GRID_SIZE-1))),
+                () -> assertEquals(3, this.logics.getCellStatus(new Pair<>(0,0)).numberOfMinesAround()),
+                () -> assertEquals(3, this.logics.getCellStatus(new Pair<>(GRID_SIZE-1,0)).numberOfMinesAround()),
+                () -> assertEquals(3, this.logics.getCellStatus(new Pair<>(0,GRID_SIZE-1)).numberOfMinesAround()),
+                () -> assertEquals(3, this.logics.getCellStatus(new Pair<>(GRID_SIZE-1,GRID_SIZE-1)).numberOfMinesAround()),
 
-                () -> assertEquals(5, this.logics.numberOfMinesAround(new Pair<>(0,1))),
-                () -> assertEquals(5, this.logics.numberOfMinesAround(new Pair<>(1,0))),
-                () -> assertEquals(5, this.logics.numberOfMinesAround(new Pair<>(GRID_SIZE-1,GRID_SIZE-2))),
-                () -> assertEquals(5, this.logics.numberOfMinesAround(new Pair<>(GRID_SIZE-2,GRID_SIZE-1))),
+                () -> assertEquals(5, this.logics.getCellStatus(new Pair<>(0,1)).numberOfMinesAround()),
+                () -> assertEquals(5, this.logics.getCellStatus(new Pair<>(1,0)).numberOfMinesAround()),
+                () -> assertEquals(5, this.logics.getCellStatus(new Pair<>(GRID_SIZE-1,GRID_SIZE-2)).numberOfMinesAround()),
+                () -> assertEquals(5, this.logics.getCellStatus(new Pair<>(GRID_SIZE-2,GRID_SIZE-1)).numberOfMinesAround()),
 
-                () -> assertEquals(8,this.logics.numberOfMinesAround(new Pair<>(1,1)))
+                () -> assertEquals(8,this.logics.getCellStatus(new Pair<>(1,1)).numberOfMinesAround())
         );
     }
 
@@ -185,7 +185,7 @@ public class LogicsTest{
         Pair<Integer, Integer> cell = new Pair<>(0,0);
         this.logics.clickCell(cell);
         this.logics.toggleFlag(cell);
-        assertFalse(this.logics.isCellFlagged(cell));
+        assertFalse(this.logics.getCellStatus(cell).isFlagged());
 
     }
 
@@ -196,7 +196,7 @@ public class LogicsTest{
         this.logics = new LogicsImpl(GRID_SIZE,Set.of(mineCell));
         this.logics.clickCell(mineCell);
         this.logics.toggleFlag(emptyCell);
-        assertFalse(this.logics.isCellFlagged(emptyCell));
+        assertFalse(this.logics.getCellStatus(emptyCell).isFlagged());
 
     }
 
@@ -207,7 +207,7 @@ public class LogicsTest{
         this.logics = new LogicsImpl(GRID_SIZE,Set.of(mineCell));
         this.logics.clickCell(mineCell);
         this.logics.clickCell(emptyCell);
-        assertFalse(this.logics.isCellClicked(emptyCell));
+        assertFalse(this.logics.getCellStatus(emptyCell).isClicked());
 
     }
 

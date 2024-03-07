@@ -2,6 +2,7 @@ package e2;
 
 
 
+import e2.cell.GameCellData;
 import e2.utils.Pair;
 
 import javax.swing.*;
@@ -80,7 +81,7 @@ public class GUI extends JFrame {
             // call the logic here
             // if this button is a mine, draw it "*"
             // disable the button
-            if(this.logics.isMineCell(entry.getValue())){
+            if(this.logics.getCellStatus(entry.getValue()).isMine()){
                 entry.getKey().setFont(largerFont);
                 entry.getKey().setText("*");
                 entry.getKey().setEnabled(false);
@@ -93,10 +94,11 @@ public class GUI extends JFrame {
             // call the logic here
             // if this button is a cell with counter, put the number
             // if this button has a flag, put the flag
-            if(this.logics.isCellClicked(entry.getValue()) && !this.logics.isMineCell(entry.getValue())){
-                entry.getKey().setText(String.valueOf(this.logics.numberOfMinesAround(entry.getValue())));
+            GameCellData gameCellData = this.logics.getCellStatus(entry.getValue());
+            if(gameCellData.isClicked() && !gameCellData.isMine()){
+                entry.getKey().setText(String.valueOf(gameCellData.numberOfMinesAround()));
                 entry.getKey().setEnabled(false);
-            }else if(this.logics.isCellFlagged(entry.getValue())){
+            }else if(gameCellData.isFlagged()){
                 entry.getKey().setText("F");
             }
     	}

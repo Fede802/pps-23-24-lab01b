@@ -34,9 +34,9 @@ public class GridTest {
                 int cellX = i;
                 int cellY = j;
                 assertAll(
-                        () -> assertEquals(new Pair<>(cellX,cellY), this.grid.getCell(cellX,cellY).getCellPosition()),
-                        () -> assertFalse(this.grid.getCell(cellX,cellY).isSelected()),
-                        () -> assertFalse(this.grid.getCell(cellX,cellY).isFlagged())
+                        () -> assertEquals(new Pair<>(cellX,cellY), this.grid.getCellAt(cellX,cellY).getCellPosition()),
+                        () -> assertFalse(this.grid.getCellAt(cellX,cellY).isSelected()),
+                        () -> assertFalse(this.grid.getCellAt(cellX,cellY).isFlagged())
                 );
 
             }
@@ -46,10 +46,10 @@ public class GridTest {
     @Test
     void wrongCellSearchHandling(){
         assertAll(
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCell(-1,0)),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCell(GRID_SIZE,0)),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCell(0,-1)),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCell(0,GRID_SIZE))
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCellAt(-1,0)),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCellAt(GRID_SIZE,0)),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCellAt(0,-1)),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCellAt(0,GRID_SIZE))
         );
     }
 
