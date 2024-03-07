@@ -17,7 +17,7 @@ public class GUI extends JFrame {
     private final Logics logics;
     
     public GUI(int size, int minesToPlace) {
-        this.logics = new LogicsImpl(size,minesToPlace);
+        this.logics = new LogicFactoryImpl().createPresetGameLogic(size,minesToPlace);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(100*size, 100*size);
         
@@ -27,7 +27,8 @@ public class GUI extends JFrame {
         ActionListener onClick = (e)->{
             final JButton bt = (JButton)e.getSource();
             final Pair<Integer,Integer> pos = buttons.get(bt);
-            boolean aMineWasFound = this.logics.hasMine(pos.getX(),pos.getY()); // call the logic here to tell it that cell at 'pos' has been seleced
+            ClickResult clickResult = this.logics.clickCell(pos);
+            boolean aMineWasFound = this.logics.hasMine(pos); // call the logic here to tell it that cell at 'pos' has been seleced
             if (aMineWasFound) {
                 quitGame();
                 JOptionPane.showMessageDialog(this, "You lost!!");
@@ -48,6 +49,18 @@ public class GUI extends JFrame {
                 final JButton bt = (JButton)e.getSource();
                 if (bt.isEnabled()){
                     final Pair<Integer,Integer> pos = buttons.get(bt);
+                    //todo what happen if position is invalid? invalid position or invalid button state
+                    //todo disable flagged cell
+                    logics.toggleFlag(pos);
+                    //todo
+//                    bt.setText(""+logics.numberOfMineAround(pos));
+//                    bt.setEnabled(false);
+//                    if(!logics.hasMineAround(pos)){
+//                        System.out.println("yes");
+//
+//                    }else{
+//                        System.out.println("no");
+//                    }
                     // call the logic here to put/remove a flag
                 }
                 drawBoard(); 
@@ -70,7 +83,7 @@ public class GUI extends JFrame {
     private void quitGame() {
         this.drawBoard();
     	for (var entry: this.buttons.entrySet()) {
-            if(this.logics.hasMine(entry.getValue().getX(),entry.getValue().getY())){
+            if(this.logics.isMineCell(entry.getValue())){
 
                 entry.getKey().setFont(new Font(Font.SERIF,Font.PLAIN,30));
                 entry.getKey().setText("*");
@@ -85,6 +98,11 @@ public class GUI extends JFrame {
 
     private void drawBoard() {
         for (var entry: this.buttons.entrySet()) {
+            if(this.logics.isCellClicked(entry.getValue())){
+                entry.getKey().setText(String.valueOf(this.logics.minesAround(entry.getValue())));
+            }else if(this.logics.isCellFlagged(entry.getValue())){
+                entry.getKey().setText("F");
+            }
             // call the logic here
             // if this button is a cell with counter, put the number
             // if this button has a flag, put the flag
