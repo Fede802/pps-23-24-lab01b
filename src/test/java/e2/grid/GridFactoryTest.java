@@ -51,7 +51,7 @@ public class GridFactoryTest {
     }
 
     @Test
-    void gridWithTooMuchMines(){
+    void gridWithTooMuchMinesCorrectlyHandled(){
         assertThrows(IllegalArgumentException.class, () -> this.gridFactory.createGridWithRandomMines(GRID_SIZE, GRID_SIZE*GRID_SIZE+1));
     }
 
@@ -74,4 +74,5 @@ public class GridFactoryTest {
         }
         assertEquals(presetMinePosition, mineFound);
     }
+
 }

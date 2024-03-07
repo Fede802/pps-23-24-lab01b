@@ -9,8 +9,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class GridImpl implements Grid {
+
     private final Set<GameCell> grid;
+
     private final int gridSize;
+
     public GridImpl(int gridSize) {
         this(gridSize, Set.of());
     }
@@ -34,6 +37,12 @@ public class GridImpl implements Grid {
         }
     }
 
+    private boolean isNeighbours(Pair<Integer, Integer> firstCell, Pair<Integer, Integer> secondCell) {
+        int distanceX = Math.abs(firstCell.getX() - secondCell.getX());
+        int distanceY = Math.abs(firstCell.getY() - secondCell.getY());
+        return distanceX <= 1 && distanceY <= 1 && !firstCell.equals(secondCell);
+    }
+
     @Override
     public int getSize() {
         return this.gridSize;
@@ -42,21 +51,19 @@ public class GridImpl implements Grid {
     @Override
     public GameCell getCell(int cellX, int cellY) throws IndexOutOfBoundsException {
         Pair<Integer,Integer> cellPosition = new Pair<>(cellX,cellY);
-        return this.grid.stream().filter((cell)->(cell.getCellPosition().equals(cellPosition))).findFirst().orElseThrow(IndexOutOfBoundsException::new);
+        return this.grid.stream()
+                .filter((cell)->(cell.getCellPosition().equals(cellPosition)))
+                .findFirst()
+                .orElseThrow(IndexOutOfBoundsException::new);
     }
 
 
     @Override
     public Set<GameCell> getNeighbours(int cellX, int cellY) {
         Pair<Integer, Integer> cellPosition = this.getCell(cellX,cellY).getCellPosition();
-        return this.grid.stream().filter((cell)->(isNeighbours(cell.getCellPosition(),cellPosition))).collect(Collectors.toSet());
+        return this.grid.stream()
+                .filter((cell)->(isNeighbours(cell.getCellPosition(),cellPosition)))
+                .collect(Collectors.toSet());
     }
-
-    private boolean isNeighbours(Pair<Integer, Integer> firstCell, Pair<Integer, Integer> secondCell) {
-        int distanceX = Math.abs(firstCell.getX() - secondCell.getX());
-        int distanceY = Math.abs(firstCell.getY() - secondCell.getY());
-        return distanceX <= 1 && distanceY <= 1 && !firstCell.equals(secondCell);
-    }
-
 
 }

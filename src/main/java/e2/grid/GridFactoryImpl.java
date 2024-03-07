@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GridFactoryImpl implements GridFactory{
+
     @Override
     public Grid createEmptyGrid(int gridSize) {
         return new GridImpl(gridSize);

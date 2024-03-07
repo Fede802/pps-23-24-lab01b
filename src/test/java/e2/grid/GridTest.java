@@ -14,16 +14,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GridTest {
 
     private final static int GRID_SIZE = 7;
+
     private Grid grid;
+
     @BeforeEach
     void initGrid(){
         this.grid = new GridImpl(GRID_SIZE);
     }
+
     @Test
     void sizeSetCorrectly(){
         assertEquals(GRID_SIZE, this.grid.getSize());
     }
-
 
     @Test
     void gridInitializedCorrectly(){
@@ -42,7 +44,7 @@ public class GridTest {
     }
 
     @Test
-    void wrongCellSearch(){
+    void wrongCellSearchHandling(){
         assertAll(
                 () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCell(-1,0)),
                 () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCell(GRID_SIZE,0)),
@@ -65,7 +67,7 @@ public class GridTest {
     }
 
     @Test
-    void neighboursSearchOnWrongCell(){
+    void neighboursSearchOnWrongCellHandling(){
         assertThrows(IndexOutOfBoundsException.class, () -> this.grid.getNeighbours(-1,-1));
     }
 

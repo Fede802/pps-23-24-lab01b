@@ -8,6 +8,7 @@ import e2.grid.Grid;
 import e2.grid.GridFactoryImpl;
 import e2.utils.Pair;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class LogicsImpl implements Logics {
@@ -28,21 +29,43 @@ public class LogicsImpl implements Logics {
             GameCell gameCell = this.grid.getCell(cellPosition.getX(), cellPosition.getY());
             if (!gameCell.isSelected() && !gameCell.isFlagged()) {
                 gameCell.select();
-                if (gameCell.getEntityType() == EntityType.MINE) {
-                    this.gameLost = true;
-                    return ClickResult.LOSE;
-                } else if (this.numberOfMinesAround(cellPosition) == 0) {
-                    for (GameCell cell :
-                            this.grid.getNeighbours(cellPosition.getX(), cellPosition.getY())) {
-                        this.clickCell(cell.getCellPosition());
-                    }
-                }
-                if (this.allEmptyCellClicked()) {
-                    return ClickResult.WIN;
-                }
+                return handleCellClick(gameCell).orElse(ClickResult.EMPTY);
             }
         }
         return ClickResult.EMPTY;
+    }
+
+    private Optional<ClickResult> handleCellClick(GameCell gameCell) {
+        if (gameCell.getEntityType() == EntityType.MINE) {
+            this.gameLost = true;
+            return Optional.of(ClickResult.LOSE);
+        }
+        if (this.numberOfMinesAround(gameCell.getCellPosition()) == 0) {
+            this.handleRecursiveAutoClick(gameCell);
+        }
+        if (this.allEmptyCellClicked()) {
+            return Optional.of(ClickResult.WIN);
+        }
+        return Optional.empty();
+    }
+
+    private void handleRecursiveAutoClick(GameCell gameCell) {
+        for (GameCell cell :
+                this.grid.getNeighbours(gameCell.getCellPosition().getX(), gameCell.getCellPosition().getY())) {
+            this.clickCell(cell.getCellPosition());
+        }
+    }
+
+    private boolean allEmptyCellClicked() {
+        for (int i = 0; i < this.grid.getSize(); i++) {
+            for (int j = 0; j < this.grid.getSize(); j++) {
+                GameCell gameCell = this.grid.getCell(i,j);
+                if(gameCell.getEntityType() == EntityType.EMPTY && !gameCell.isSelected()){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -73,16 +96,6 @@ public class LogicsImpl implements Logics {
         return this.grid.getCell(cellPosition.getX(), cellPosition.getY()).isFlagged();
     }
 
-    private boolean allEmptyCellClicked() {
-        for (int i = 0; i < this.grid.getSize(); i++) {
-            for (int j = 0; j < this.grid.getSize(); j++) {
-                GameCell gameCell = this.grid.getCell(i,j);
-                if(gameCell.getEntityType() == EntityType.EMPTY && !gameCell.isSelected()){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+
 
 }

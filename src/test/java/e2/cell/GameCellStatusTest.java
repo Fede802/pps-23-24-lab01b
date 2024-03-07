@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameCellStatusTest {
+
     private GameCellStatus gameCellStatus;
+
     @BeforeEach
     void initCellStatus(){
         this.gameCellStatus = new GameCellStatusImpl();
@@ -21,25 +23,25 @@ public class GameCellStatusTest {
     }
 
     @Test
-    void isSelectable(){
+    void isPossibleToSelect(){
         this.gameCellStatus.select();
         assertTrue(this.gameCellStatus.isSelected());
     }
 
     @Test
-    void isNotUnselectable(){
+    void isNotPossibleToUnselect(){
         this.gameCellStatus.select();
         assertThrows(IllegalStateException.class,() -> this.gameCellStatus.select());
     }
 
     @Test
-    void canBeFlagged(){
+    void isPossibleToFlag(){
         this.gameCellStatus.toggleFlag();
         assertTrue(this.gameCellStatus.isFlagged());
     }
 
     @Test
-    void canReverseFlagged(){
+    void isPossibleToRemoveFlag(){
         this.gameCellStatus.toggleFlag();
         this.gameCellStatus.toggleFlag();
         assertFalse(this.gameCellStatus.isFlagged());

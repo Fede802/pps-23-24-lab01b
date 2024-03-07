@@ -1,8 +1,11 @@
 package e2.cell;
 
 public class GameCellStatusImpl implements GameCellStatus {
+
     private boolean selected;
+
     private boolean flagged;
+
     @Override
     public boolean isSelected() {
         return this.selected;
@@ -25,4 +28,5 @@ public class GameCellStatusImpl implements GameCellStatus {
     public void toggleFlag() {
         this.flagged = !this.flagged;
     }
+
 }

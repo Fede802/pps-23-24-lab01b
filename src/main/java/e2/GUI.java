@@ -31,7 +31,7 @@ public class GUI extends JFrame {
             final JButton bt = (JButton)e.getSource();
             final Pair<Integer,Integer> pos = buttons.get(bt);
             ClickResult clickResult = this.logics.clickCell(pos);
-            boolean aMineWasFound = clickResult == ClickResult.LOSE;//this.logics.hasMine(pos); // call the logic here to tell it that cell at 'pos' has been seleced
+            boolean aMineWasFound = clickResult == ClickResult.LOSE;// call the logic here to tell it that cell at 'pos' has been seleced
             if (aMineWasFound) {
                 quitGame();
                 JOptionPane.showMessageDialog(this, "You lost!!");
@@ -53,19 +53,8 @@ public class GUI extends JFrame {
                 final JButton bt = (JButton)e.getSource();
                 if (e.getButton() == MouseEvent.BUTTON3 && bt.isEnabled()){
                     final Pair<Integer,Integer> pos = buttons.get(bt);
-                    //todo what happen if position is invalid? invalid position or invalid button state
-
-                    logics.toggleFlag(pos);
-
-//                    bt.setText(""+logics.numberOfMineAround(pos));
-//                    bt.setEnabled(false);
-//                    if(!logics.hasMineAround(pos)){
-//                        System.out.println("yes");
-//
-//                    }else{
-//                        System.out.println("no");
-//                    }
                     // call the logic here to put/remove a flag
+                    logics.toggleFlag(pos);
                 }
                 drawBoard(); 
             }
@@ -86,29 +75,30 @@ public class GUI extends JFrame {
     
     private void quitGame() {
         this.drawBoard();
+        Font largerFont = new Font(Font.SERIF,Font.PLAIN,30);
     	for (var entry: this.buttons.entrySet()) {
-            if(this.logics.isMineCell(entry.getValue())){
-//                entry.getKey().setFont(new Font(Font.SERIF,Font.PLAIN,30));
-                entry.getKey().setText("*");
-                entry.getKey().setEnabled(false);
-            }
             // call the logic here
             // if this button is a mine, draw it "*"
             // disable the button
+            if(this.logics.isMineCell(entry.getValue())){
+                entry.getKey().setFont(largerFont);
+                entry.getKey().setText("*");
+                entry.getKey().setEnabled(false);
+            }
     	}
     }
 
     private void drawBoard() {
         for (var entry: this.buttons.entrySet()) {
+            // call the logic here
+            // if this button is a cell with counter, put the number
+            // if this button has a flag, put the flag
             if(this.logics.isCellClicked(entry.getValue()) && !this.logics.isMineCell(entry.getValue())){
                 entry.getKey().setText(String.valueOf(this.logics.numberOfMinesAround(entry.getValue())));
                 entry.getKey().setEnabled(false);
             }else if(this.logics.isCellFlagged(entry.getValue())){
                 entry.getKey().setText("F");
             }
-            // call the logic here
-            // if this button is a cell with counter, put the number
-            // if this button has a flag, put the flag
     	}
     }
     

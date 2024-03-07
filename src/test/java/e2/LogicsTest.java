@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,10 +20,20 @@ public class LogicsTest{
         this.logics = new LogicsImpl(GRID_SIZE,0);
     }
 
+    private void wrongCellTester(Consumer<Pair<Integer,Integer>> functionToTest) {
+        assertAll(
+                () -> assertThrows(IndexOutOfBoundsException.class,()->functionToTest.accept(new Pair<>(-1,0))),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->functionToTest.accept(new Pair<>(GRID_SIZE,0))),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->functionToTest.accept(new Pair<>(0,-1))),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->functionToTest.accept(new Pair<>(0,GRID_SIZE)))
+        );
+    }
+
     @Test
-    void createLogicWithTooMuchMines(){
+    void createLogicWithTooMuchMinesHandling(){
         assertThrows(IllegalArgumentException.class, () -> new LogicsImpl(GRID_SIZE,GRID_SIZE*GRID_SIZE+1));
     }
+
     @Test
     void clickEmptyCell(){
         Set<Pair<Integer,Integer>> presetMinePosition = Set.of(
@@ -50,19 +61,11 @@ public class LogicsTest{
     }
 
     @Test
-    void clickWrongCell(){
-        assertAll(
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.clickCell(new Pair<>(-1,0))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.clickCell(new Pair<>(GRID_SIZE,0))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.clickCell(new Pair<>(0,-1))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.clickCell(new Pair<>(0,GRID_SIZE))),
-
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellClicked(new Pair<>(-1,0))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellClicked(new Pair<>(GRID_SIZE,0))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellClicked(new Pair<>(0,-1))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellClicked(new Pair<>(0,GRID_SIZE)))
-        );
+    void clickActionsOnWrongCell(){
+        this.wrongCellTester((p) -> this.logics.clickCell(p));
+        this.wrongCellTester((p) -> this.logics.isCellClicked(p));
     }
+
     @Test
     void clickAllEmptyCell(){
         Set<Pair<Integer,Integer>> presetMinePosition = Set.of(
@@ -106,19 +109,11 @@ public class LogicsTest{
     }
 
     @Test
-    void flagWrongCell(){
-        assertAll(
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.toggleFlag(new Pair<>(-1,0))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.toggleFlag(new Pair<>(GRID_SIZE,0))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.toggleFlag(new Pair<>(0,-1))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.toggleFlag(new Pair<>(0,GRID_SIZE))),
-
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellFlagged(new Pair<>(-1,0))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellFlagged(new Pair<>(GRID_SIZE,0))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellFlagged(new Pair<>(0,-1))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellFlagged(new Pair<>(0,GRID_SIZE)))
-        );
+    void flagActionsOnWrongCell(){
+        this.wrongCellTester((p) -> this.logics.toggleFlag(p));
+        this.wrongCellTester((p) -> this.logics.isCellClicked(p));
     }
+
     @Test
     void allCellInitiallyNotClicked(){
         for (int i = 0; i < GRID_SIZE; i++) {
@@ -159,9 +154,9 @@ public class LogicsTest{
                 () -> assertEquals(0, this.logics.numberOfMinesAround(new Pair<>(GRID_SIZE-2,GRID_SIZE-1))),
 
                 () -> assertEquals(0,this.logics.numberOfMinesAround(new Pair<>(1,1)))
-
         );
     }
+
     @Test
     void minesAroundCheckerWorksCorrectlyInFullGrid(){
         this.logics = new LogicsImpl(GRID_SIZE,GRID_SIZE*GRID_SIZE);
@@ -177,12 +172,11 @@ public class LogicsTest{
                 () -> assertEquals(5, this.logics.numberOfMinesAround(new Pair<>(GRID_SIZE-2,GRID_SIZE-1))),
 
                 () -> assertEquals(8,this.logics.numberOfMinesAround(new Pair<>(1,1)))
-
         );
     }
 
     @Test
-    void chainEffect(){
+    void chainEffectOnEmptyGrid(){
         assertEquals(ClickResult.WIN,this.logics.clickCell(new Pair<>(0,0)));
     }
 
@@ -216,4 +210,5 @@ public class LogicsTest{
         assertFalse(this.logics.isCellClicked(emptyCell));
 
     }
+
 }
