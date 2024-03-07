@@ -35,7 +35,6 @@ public class GridTest {
                         () -> assertEquals(new Pair<>(cellX,cellY), this.grid.getCell(cellX,cellY).getCellPosition()),
                         () -> assertFalse(this.grid.getCell(cellX,cellY).isSelected()),
                         () -> assertFalse(this.grid.getCell(cellX,cellY).isFlagged())
-
                 );
 
             }
@@ -69,8 +68,5 @@ public class GridTest {
     void neighboursSearchOnWrongCell(){
         assertThrows(IndexOutOfBoundsException.class, () -> this.grid.getNeighbours(-1,-1));
     }
-
-    //todo all emptycell clicked
-
 
 }

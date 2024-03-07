@@ -54,9 +54,9 @@ public class GUI extends JFrame {
                 if (e.getButton() == MouseEvent.BUTTON3 && bt.isEnabled()){
                     final Pair<Integer,Integer> pos = buttons.get(bt);
                     //todo what happen if position is invalid? invalid position or invalid button state
-                    //todo disable flagged cell
+
                     logics.toggleFlag(pos);
-                    //todo
+
 //                    bt.setText(""+logics.numberOfMineAround(pos));
 //                    bt.setEnabled(false);
 //                    if(!logics.hasMineAround(pos)){

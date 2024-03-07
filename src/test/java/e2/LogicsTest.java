@@ -55,7 +55,12 @@ public class LogicsTest{
                 () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.clickCell(new Pair<>(-1,0))),
                 () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.clickCell(new Pair<>(GRID_SIZE,0))),
                 () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.clickCell(new Pair<>(0,-1))),
-                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.clickCell(new Pair<>(0,GRID_SIZE)))
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.clickCell(new Pair<>(0,GRID_SIZE))),
+
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellClicked(new Pair<>(-1,0))),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellClicked(new Pair<>(GRID_SIZE,0))),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellClicked(new Pair<>(0,-1))),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellClicked(new Pair<>(0,GRID_SIZE)))
         );
     }
     @Test
@@ -100,6 +105,20 @@ public class LogicsTest{
         assertFalse(this.logics.isCellFlagged(cell));
     }
 
+    @Test
+    void flagWrongCell(){
+        assertAll(
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.toggleFlag(new Pair<>(-1,0))),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.toggleFlag(new Pair<>(GRID_SIZE,0))),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.toggleFlag(new Pair<>(0,-1))),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.toggleFlag(new Pair<>(0,GRID_SIZE))),
+
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellFlagged(new Pair<>(-1,0))),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellFlagged(new Pair<>(GRID_SIZE,0))),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellFlagged(new Pair<>(0,-1))),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.logics.isCellFlagged(new Pair<>(0,GRID_SIZE)))
+        );
+    }
     @Test
     void allCellInitiallyNotClicked(){
         for (int i = 0; i < GRID_SIZE; i++) {
