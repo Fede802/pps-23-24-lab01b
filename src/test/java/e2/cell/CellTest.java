@@ -1,71 +1,23 @@
 package e2.cell;
 
-import e2.Pair;
-import e2.cell.Cell;
-import e2.cell.CellImpl;
+import e2.utils.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CellTest {
 
-    private final static int CELL_START_X = 0;
-    private final static int CELL_START_Y = 0;
-
-    //todo improve (non)adjacent - generation
-    private final static List<Pair<Integer,Integer>> ADJACENT_CELLS = Arrays.asList(
-            new Pair<>(-1,-1), new Pair<>(-1, 0), new Pair<>(-1,1),
-            new Pair<>(0,-1), /*------startCell------*/ new Pair<>(0,1),
-            new Pair<>(1,-1),  new Pair<>(1, 0),  new Pair<>(1,1)
-    );
-
-    private final static List<Pair<Integer,Integer>> NOT_ADJACENT_CELLS = Arrays.asList(
-            new Pair<>(-2,-2), new Pair<>(-2,-1), new Pair<>(-2,0), new Pair<>(-2,1),new Pair<>(-2,2),
-            new Pair<>(-1,-2), /*-------------------------------------------------------------------*/ new Pair<>(-1,2),
-            new Pair<>(0,-2),  /*--------------------------adjacentCells----------------------------*/ new Pair<>(0,2),
-            new Pair<>(1,-2),  /*-------------------------------------------------------------------*/ new Pair<>(1,2),
-            new Pair<>(2,-2),  new Pair<>(2,-1),  new Pair<>(2,0),  new Pair<>(2,1), new Pair<>(2,2)
-    );
+    private final static int CELL_X = 5;
+    private final static int CELL_Y = 5;
     private Cell cell;
     @BeforeEach
     void initCell(){
-        this.cell = new CellImpl(CELL_START_X,CELL_START_Y);
+        this.cell = new BaseCell(CELL_X,CELL_Y);
     }
     @Test
-    void isCellPositionInitiallySet(){
-        assertEquals(new Pair<>(CELL_START_X,CELL_START_Y), this.cell.getCellPosition());
+    void cellPositionSetCorrectly(){
+        assertEquals(new Pair<>(CELL_X,CELL_Y), this.cell.getCellPosition());
     }
 
-    @Test
-    void moveCellPosition(){
-        int newCellX = 3;
-        int newCellY = -3;
-        this.cell.moveCellTo(newCellX, newCellY);
-        assertEquals(new Pair<>(newCellX,newCellY), this.cell.getCellPosition());
-    }
-
-
-    @Test
-    void checkCorrectAdjacency(){
-        assertAll(
-                ADJACENT_CELLS.stream().map(
-                        (adjacentCell) ->
-                            () -> assertTrue(this.cell.isAdjacentTo(adjacentCell))
-                )
-        );
-    }
-
-    @Test
-    void checkWrongAdjacency(){
-        assertAll(
-                NOT_ADJACENT_CELLS.stream().map(
-                        (notAdjacentCell) ->
-                                () -> assertFalse(this.cell.isAdjacentTo(notAdjacentCell))
-                )
-        );
-    }
 }

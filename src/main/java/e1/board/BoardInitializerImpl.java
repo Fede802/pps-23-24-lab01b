@@ -1,11 +1,9 @@
 package e1.board;
 
 import e1.piece.Piece;
-import e1.piece.PieceFactory;
-import e1.piece.PieceFactoryImpl;
 import e1.utils.Pair;
 import e1.utils.PositionGenerator;
-import e1.utils.RandomPositionGenerator;
+
 
 public class BoardInitializerImpl implements BoardInitializer {
 

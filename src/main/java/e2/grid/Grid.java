@@ -1,17 +1,13 @@
 package e2.grid;
 
-import e2.grid.initializer.GameInitializer;
+import e2.cell.GameCell;
+
+import java.util.Set;
 
 public interface Grid {
     int getSize();
 
-    boolean isCellPressed(int cellX, int cellY);
+    GameCell getCell(int cellX, int cellY) throws IndexOutOfBoundsException;
 
-    void pressCell(int cellX, int cellY);
-
-    void setGameInitializer(GameInitializer gameInitializer);
-
-    GameInitializer getGameInitializer();
-
-    boolean hasMine(int gridX, int gridY);
+    Set<GameCell> getNeighbours(int cellX, int cellY);
 }

@@ -1,26 +1,23 @@
 package e2;
 
-
-
-import e2.utils.Pair;
-
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
+
+import java.util.*;
+import java.util.Map.Entry;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GUI extends JFrame {
     
     private static final long serialVersionUID = -6218820567019985015L;
-    private final Map<JButton, Pair<Integer,Integer>> buttons = new HashMap<>();
+    private final Map<JButton,Pair<Integer,Integer>> buttons = new HashMap<>();
     private final Logics logics;
     
     public GUI(int size, int minesToPlace) {
-        this.logics = new LogicsImpl(size,minesToPlace);
+        this.logics = new LogicFactoryImpl().createPresetGameLogic(size,minesToPlace);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(100*size, 100*size);
         
@@ -31,15 +28,14 @@ public class GUI extends JFrame {
             final JButton bt = (JButton)e.getSource();
             final Pair<Integer,Integer> pos = buttons.get(bt);
             ClickResult clickResult = this.logics.clickCell(pos);
-            boolean aMineWasFound = clickResult == ClickResult.LOSE;//this.logics.hasMine(pos); // call the logic here to tell it that cell at 'pos' has been seleced
+            boolean aMineWasFound = this.logics.hasMine(pos); // call the logic here to tell it that cell at 'pos' has been seleced
             if (aMineWasFound) {
                 quitGame();
                 JOptionPane.showMessageDialog(this, "You lost!!");
-                System.exit(0);
             } else {
                 drawBoard();            	
             }
-            boolean isThereVictory = clickResult == ClickResult.WIN; // call the logic here to ask if there is victory
+            boolean isThereVictory = false; // call the logic here to ask if there is victory
             if (isThereVictory){
                 quitGame();
                 JOptionPane.showMessageDialog(this, "You won!!");
@@ -51,7 +47,7 @@ public class GUI extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 final JButton bt = (JButton)e.getSource();
-                if (e.getButton() == MouseEvent.BUTTON3 && bt.isEnabled()){
+                if (bt.isEnabled()){
                     final Pair<Integer,Integer> pos = buttons.get(bt);
                     //todo what happen if position is invalid? invalid position or invalid button state
                     //todo disable flagged cell
@@ -88,9 +84,11 @@ public class GUI extends JFrame {
         this.drawBoard();
     	for (var entry: this.buttons.entrySet()) {
             if(this.logics.isMineCell(entry.getValue())){
-//                entry.getKey().setFont(new Font(Font.SERIF,Font.PLAIN,30));
+
+                entry.getKey().setFont(new Font(Font.SERIF,Font.PLAIN,30));
                 entry.getKey().setText("*");
                 entry.getKey().setEnabled(false);
+
             }
             // call the logic here
             // if this button is a mine, draw it "*"
@@ -100,9 +98,8 @@ public class GUI extends JFrame {
 
     private void drawBoard() {
         for (var entry: this.buttons.entrySet()) {
-            if(this.logics.isCellClicked(entry.getValue()) && !this.logics.isMineCell(entry.getValue())){
-                entry.getKey().setText(String.valueOf(this.logics.numberOfMinesAround(entry.getValue())));
-                entry.getKey().setEnabled(false);
+            if(this.logics.isCellClicked(entry.getValue())){
+                entry.getKey().setText(String.valueOf(this.logics.minesAround(entry.getValue())));
             }else if(this.logics.isCellFlagged(entry.getValue())){
                 entry.getKey().setText("F");
             }

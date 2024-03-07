@@ -1,6 +1,7 @@
 package e1.utils;
 
 
+import e1.utils.RandomPositionGenerator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertAll;

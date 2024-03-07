@@ -1,5 +1,5 @@
 package e2;
 
 public enum ClickResult {
-    LOSE,WIN,EMPTY
+    LOSE, WIN, EMPTY
 }

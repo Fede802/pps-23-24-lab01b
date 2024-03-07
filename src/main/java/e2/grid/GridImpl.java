@@ -1,57 +1,62 @@
 package e2.grid;
 
+import e2.utils.Pair;
 import e2.cell.GameCell;
-import e2.cell.GameEntity;
-import e2.grid.initializer.GameInitializer;
-import e2.grid.initializer.GameInitializerImpl;
-import e2.grid.minePlacer.DumbMinePlacer;
+import e2.cell.GameCellFactory;
+import e2.cell.GameCellFactoryImpl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class GridImpl implements Grid {
-
-    private final int boardSize;
-
-    private GameInitializer gameInitializer;
-    private final List<List<GameCell>> grid = new ArrayList<>();
-    public GridImpl(int boardSize) {
-        this(boardSize, new GameInitializerImpl(new DumbMinePlacer()),0);
+    private final Set<GameCell> grid;
+    private final int gridSize;
+    public GridImpl(int gridSize) {
+        this(gridSize, Set.of());
     }
 
-    public GridImpl(int boardSize, GameInitializer gameInitializer, int minesToPlace) {
-        this.boardSize = boardSize;
-        this.gameInitializer = gameInitializer;
-        gameInitializer.initializeGridWithMines(this.grid,minesToPlace,this.boardSize);
+    public GridImpl(int gridSize, Set<Pair<Integer, Integer>> minePositions) {
+        this.grid = new HashSet<>();
+        this.gridSize = gridSize;
+        this.initGrid(gridSize,minePositions);
+    }
+
+    private void initGrid(int gridSize, Set<Pair<Integer, Integer>> minePositions) {
+        GameCellFactory gameCellFactory = new GameCellFactoryImpl();
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                if(minePositions.contains(new Pair<>(i,j))){
+                    this.grid.add(gameCellFactory.createMine(i, j));
+                }else {
+                    this.grid.add(gameCellFactory.createEmpty(i, j));
+                }
+            }
+        }
     }
 
     @Override
     public int getSize() {
-        return this.boardSize;
+        return this.gridSize;
     }
 
     @Override
-    public boolean isCellPressed(int cellX, int cellY) {
-        return this.grid.get(cellX).get(cellY).isSelected();
+    public GameCell getCell(int cellX, int cellY) throws IndexOutOfBoundsException {
+        Pair<Integer,Integer> cellPosition = new Pair<>(cellX,cellY);
+        return this.grid.stream().filter((cell)->(cell.getCellPosition().equals(cellPosition))).findFirst().orElseThrow(IndexOutOfBoundsException::new);
     }
 
-    @Override
-    public void pressCell(int cellX, int cellY) {
-        this.grid.get(cellX).get(cellY).click();
-    }
 
     @Override
-    public void setGameInitializer(GameInitializer gameInitializer) {
-        this.gameInitializer = gameInitializer;
+    public Set<GameCell> getNeighbours(int cellX, int cellY) {
+        Pair<Integer, Integer> cellPosition = this.getCell(cellX,cellY).getCellPosition();
+        return this.grid.stream().filter((cell)->(isNeighbours(cell.getCellPosition(),cellPosition))).collect(Collectors.toSet());
     }
 
-    @Override
-    public GameInitializer getGameInitializer() {
-        return this.gameInitializer;
+    private boolean isNeighbours(Pair<Integer, Integer> firstCell, Pair<Integer, Integer> secondCell) {
+        int distanceX = Math.abs(firstCell.getX() - secondCell.getX());
+        int distanceY = Math.abs(firstCell.getY() - secondCell.getY());
+        return distanceX <= 1 && distanceY <= 1 && !firstCell.equals(secondCell);
     }
 
-    @Override
-    public boolean hasMine(int gridX, int gridY) {
-        return this.grid.get(gridX).get(gridY).getEntityType() == GameEntity.Entity.MINE;
-    }
+
 }

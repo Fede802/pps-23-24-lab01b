@@ -1,52 +1,44 @@
 package e2.cell;
 
-import e2.Pair;
 
-public class GameCell implements Cell, Clickable, GameEntity{
-    private final ClickableCell clickableCell;
+import e2.utils.Pair;
 
-    private Entity entity;
-    public GameCell(int cellX, int cellY) {
-        this(Entity.FREE,cellX,cellY);
+public class GameCell implements Entity, GameCellStatus, Cell {
+
+    //todo maybe also if it is delegated this gamecell status and cell has to be tested ??
+    private final BaseCell cell;
+    private final GameCellStatus gameCellStatus;
+    private final EntityType entityType;
+    public GameCell(int cellX, int cellY, EntityType entityType) {
+        this.cell = new BaseCell(cellX,cellY);
+        this.gameCellStatus = new GameCellStatusImpl();
+        this.entityType = entityType;
     }
-
-    public GameCell(Entity entity, int cellX, int cellY) {
-        this.clickableCell = new ClickableCell(cellX,cellY);
-        this.entity = entity;
-    }
-
     @Override
     public Pair<Integer, Integer> getCellPosition() {
-        return clickableCell.getCellPosition();
+        return cell.getCellPosition();
     }
-
-    @Override
-    public void moveCellTo(int newCellX, int newCellY) {
-        clickableCell.moveCellTo(newCellX, newCellY);
-    }
-
-    @Override
-    public boolean isAdjacentTo(Pair<Integer, Integer> adjacentCellPosition) {
-        return clickableCell.isAdjacentTo(adjacentCellPosition);
-    }
-
     @Override
     public boolean isSelected() {
-        return clickableCell.isSelected();
+        return gameCellStatus.isSelected();
     }
 
     @Override
-    public void click() {
-        clickableCell.click();
+    public boolean isFlagged() {
+        return gameCellStatus.isFlagged();
     }
 
     @Override
-    public Entity getEntityType() {
-        return this.entity;
+    public void select() throws IllegalStateException {
+        gameCellStatus.select();
     }
 
     @Override
-    public void setType(Entity entity) {
-        this.entity = entity;
+    public void toggleFlag() {
+        gameCellStatus.toggleFlag();
+    }
+    @Override
+    public EntityType getEntityType() {
+        return this.entityType;
     }
 }

@@ -1,86 +1,76 @@
 package e2.grid;
 
-import e2.grid.initializer.GameInitializer;
-import e2.grid.initializer.GameInitializerImpl;
-import e2.grid.initializer.GridInitializer;
-import e2.grid.minePlacer.DumbMinePlacer;
-import e2.grid.minePlacer.MinePlacer;
-import e2.grid.minePlacer.RandomMinePlacer;
+
+import e2.utils.Pair;
+import e2.cell.GameCell;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GridTest {
 
-    private final static int BOARD_SIZE = 7;
+    private final static int GRID_SIZE = 7;
     private Grid grid;
-
     @BeforeEach
     void initGrid(){
-        this.grid = new GridImpl(BOARD_SIZE);
+        this.grid = new GridImpl(GRID_SIZE);
+    }
+    @Test
+    void sizeSetCorrectly(){
+        assertEquals(GRID_SIZE, this.grid.getSize());
     }
 
-    @Test
-    void isGridCreateCorrectly(){
-        assertEquals(BOARD_SIZE, this.grid.getSize());
-    }
 
     @Test
-    void isAllCellsInitiallyUnpressed(){
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                assertFalse(this.grid.isCellPressed(i,j));
+    void gridInitializedCorrectly(){
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
+                int cellX = i;
+                int cellY = j;
+                assertAll(
+                        () -> assertEquals(new Pair<>(cellX,cellY), this.grid.getCell(cellX,cellY).getCellPosition()),
+                        () -> assertFalse(this.grid.getCell(cellX,cellY).isSelected()),
+                        () -> assertFalse(this.grid.getCell(cellX,cellY).isFlagged())
+
+                );
+
             }
         }
     }
 
     @Test
-    void pressCell(){
+    void wrongCellSearch(){
+        assertAll(
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCell(-1,0)),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCell(GRID_SIZE,0)),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCell(0,-1)),
+                () -> assertThrows(IndexOutOfBoundsException.class,()->this.grid.getCell(0,GRID_SIZE))
+        );
+    }
+
+    @Test
+    void neighboursSearchWorkCorrectly(){
         int cellX = 0;
         int cellY = 0;
-        this.grid.pressCell(cellX,cellY);
-        assertTrue(this.grid.isCellPressed(cellX,cellY));
+        Set<Pair<Integer,Integer>> expectedNeighbours = Set.of(
+                new Pair<>(1,0),
+                new Pair<>(1,1),
+                new Pair<>(0,1)
+        );
+
+        assertEquals(expectedNeighbours, this.grid.getNeighbours(cellX,cellY).stream().map(GameCell::getCellPosition).collect(Collectors.toSet()));
     }
 
     @Test
-    void deselectCell(){
-        int cellX = 0;
-        int cellY = 0;
-        this.grid.pressCell(cellX,cellY);
-        this.grid.pressCell(cellX,cellY);
-        assertFalse(this.grid.isCellPressed(cellX,cellY));
+    void neighboursSearchOnWrongCell(){
+        assertThrows(IndexOutOfBoundsException.class, () -> this.grid.getNeighbours(-1,-1));
     }
 
-    //todo test for multiple select/deselect cycles
-    @Test
-    void setInitializer(){
-        GameInitializer gameInitializer = new GameInitializerImpl();
-        this.grid.setGameInitializer(gameInitializer);
-        assertEquals(gameInitializer, this.grid.getGameInitializer());
-    }
+    //todo all emptycell clicked
 
-    /*todo
-    @Test
-    void changeInitializer(){
-        fail();
-    }
-    */
-
-    @Test
-    void createWithInitializer(){
-        GameInitializer gameInitializer = new GameInitializerImpl();
-        this.grid = new GridImpl(BOARD_SIZE,gameInitializer,10);
-        assertEquals(gameInitializer, this.grid.getGameInitializer());
-    }
-
-    //todo get and set initializer could be removed
-
-
-    @Test
-    void checkMinePresence(){
-        //setAndgetMIne
-        fail();
-    }
 
 }
